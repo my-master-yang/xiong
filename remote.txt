@@ -1,0 +1,14 @@
+1:git remote -v:命令查看本地Repository与哪些远程仓库建立了链接,
+2:git remote add upstream https://github.com/timo1160139211/firstGit.git
+与小红在GitHub上的Repository建立链接，注意此处的SSH为小红的GitHub上的Repository的SSH;
+3:git checkout -b xiaoming-branch:新建并切换到新建的分支 xiaoming-branch;
+4:git branch:查看当前所在分支。
+使用 git add PRTest ，git commit ,git push等系列命令提交
+ Comparing changes:
+a.到小明的GitHub的Repository上点击Pull Requests，再点击New pull requests按钮;
+b.进入Comparing changes界面。
+ Create pull request:
+a.点击Create pull request按钮;
+b.填写相关信息，在点击Create pull request按钮即可。
+Merge
+
