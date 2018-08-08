@@ -1,0 +1,16 @@
+name: centos
+imagetype: snapshot
+image: CentOS6.5-GUI-0508
+flavor: m1.small
+keypair_id: ''
+security_group_id: [default]
+dev_mapping_1:
+dev_mapping_2:
+network_name: [vxlan103_net]
+avail_zone: nova
+count: 1
+admin_pass: ''
+disk_config: AUTO
+config_drive: False
+scheduler_hints: {}
+custom_script: ''

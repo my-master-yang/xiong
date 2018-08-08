@@ -1,0 +1,94 @@
+{% load staticfiles %}
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>西南交通大学铁路安全培训平台</title>
+    <link href="{% static 'openstack_platform/css/main.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'openstack_platform/css/iconfont.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'openstack_platform/css/test.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'openstack_platform/css/examAlert.css' %}" rel="stylesheet" type="text/css" />
+    <script src="{% static 'openstack_platform/js/jquery-1.11.3.min.js' %}"></script>
+    <script src="{% static 'openstack_platform/js/examAlert.js' %}"></script>
+</head>
+<body>
+<div class="main">
+    <!--nr start-->
+    <div class="score_main">
+        <div class="score_center">
+            <div class="score">
+                <div class="score_content">
+                    <div class="score_content_title">
+                        <div class="img"><img src="{% static 'openstack_platform/image/hibo1.jpg' %}"/></div>
+                        <h3>考试结果</h3>
+                    </div>
+                </div>
+                <div class="score_content_nr">
+                    <div class="score_content_nr_t">
+                        <div class="score_num">
+                            <span class="score_num_1">&nbsp;{{ user.username }}&nbsp; </span>
+{#                            <span class="score_num_2">考试用户</span>#}
+                        </div>
+                        <div class="message">
+                            <div class="exam_message"><h3 style="display: inline">考试得分:</h3><span>分</span><span style="color: red;">{{ score }}</span></div>
+                            <div class="exam_message"><h3 style="display: inline">考试科目:</h3><span>{{ title }}</span></div>
+                            <div class="exam_message"><h3 style="display: inline">考试用时:</h3> <span>{{ used_timesm }} : {{ used_timess }} </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="exam_button">
+                    <button class="last" id='returnindex'><a>返回首页</a></button>
+                    <button class="next" id='returnmyexam'><a>考试科目</a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';">
+    <div class="cd-popup index" role="alert">
+	<div class="cd-popup-container">
+		<p>你确定离开此页吗？</p>
+		<ul class="cd-buttons">
+			<li><a href="{% url 'index' %}?act=index" >是</a></li>
+			<li><a href="#" class="close">否</a></li>
+		</ul>
+		<div class="bg_close"><span class="tip">提示!</span><a href="#" class="cd-popup-close img-replace">关闭</a></div>
+	</div>
+</div>
+<div class="cd-popup exam" role="alert">
+	<div class="cd-popup-container">
+		<p>你确定离开此页吗？</p>
+		<ul class="cd-buttons">
+			<li><a href="{% url 'examination:myexam' %}?act=examination:myexam" >是</a></li>
+			<li><a href="#" class="close">否</a></li>
+		</ul>
+		<div class="bg_close"><span class="tip">提示!</span><a href="#" class="cd-popup-close img-replace">关闭</a></div>
+	</div>
+</div>
+</div>
+</body>
+
+{#<script type="text/javascript">#}
+{#    function f() {#}
+        {#alert("你确定离开此页么？");#}
+        {#window.location.href = "{% url 'index' %}?act=index"#}
+{##}
+{#        var truthBeTold = window.confirm("你确定离开此页吗？");#}
+{#            if (truthBeTold) {#}
+{#            window.location.href = "{% url 'index' %}?act=index";#}
+{#            } else window.close();#}
+{#    }#}
+{##}
+{#    function f1() {#}
+        {#alert("你确定离开此页么？");#}
+        {#window.location.href = "{% url 'examination:myexam' %}?act=examination:myexam"#}
+{##}
+{#        var truthBeTold = window.confirm("你确定离开此页吗？");#}
+{#            if (truthBeTold) {#}
+{#            window.location.href = "{% url 'examination:myexam' %}?act=examination:myexam";#}
+{#            } else window.close();#}
+{##}
+{#    }#}
+{#</script>#}
+</html>

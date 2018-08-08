@@ -1,0 +1,120 @@
+.slide-outer {
+    width: auto;
+    height: auto;
+    background-color: #2d3340;
+    z-index: 1110;
+    border-radius: 5px;
+    /*margin-top: 10px;*/
+    padding: 10px;
+}
+
+.slide-content {
+    width: 190px;
+    height: auto;
+    display: none;
+    margin: 20px 10px 0 10px;
+}
+
+.slide-inner {
+    width: 190px;
+    height: 120px;
+    background: url("../image/slide2.jpg");
+    position: relative;
+}
+
+.shiyan-name {
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    color: white;
+    font-size: 17px;
+}
+
+.buttons {
+    position: absolute;
+    top: 80px;
+    left: 10px;
+    z-index: 11111;
+    list-style-type: none;
+    width: 170px;
+    color: white;
+}
+
+.visible {
+    padding: 5px 5px 20px 5px;
+    color: white;
+    font-size: 16px;
+}
+
+.buttons .continue {
+    text-align: right;
+    height: 22px;
+    list-style-type: none;
+    padding: 1px 10px;
+    float: left;
+    background-color: #212121;
+    border-radius: 3px;
+}
+
+.buttons .over {
+    text-align: right;
+    height: 22px;
+    line-height: 13px;
+    padding: 1px 10px;
+    float: right;
+    background-color: #212121;
+    border-radius: 3px;
+}
+
+.visible i {
+    font-size: 20px;
+    float: right;
+}
+
+.visible span {
+    padding: 0 10px 15px 10px;
+    float: right;
+}
+
+.slide-outer-exam {
+    width: auto;
+    height: auto;
+    background-color: #2d3340;
+    z-index: 1111;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+.slide-content-exam {
+    width: 190px;
+    height: auto;
+    display: none;
+    margin: 20px 10px 0 10px;
+}
+
+.visible-exam {
+    padding: 5px 5px 20px 5px;
+    color: white;
+    font-size: 16px;
+}
+
+.visible-exam i {
+    font-size: 20px;
+    float: right;
+}
+
+.visible-exam span {
+    padding: 0 10px 15px 10px;
+    float: right;
+}
+
+.slide-all {
+    height: auto;
+    width: auto;
+    position: fixed;
+    bottom: 50px;
+    right: 1px;
+    z-index: 1111;
+}
+

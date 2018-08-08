@@ -1,0 +1,119 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1"/>
+    <title>铁路培训平台</title>
+    <link rel="stylesheet" href="{% static 'openstack_platform/bootstrap-3.3.7-dist/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/jquery-easyui-1.5.3/themes/color.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/font-awesome-4.7.0/css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/jquery-easyui-1.5.3/themes/default/easyui.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/jquery-easyui-1.5.3/themes/icon.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/jquery-easyui-1.5.3/demo/demo.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/base.css' %}">
+    <script src="{% static 'openstack_platform/jquery-easyui-1.5.3/jquery.min.js' %}"></script>
+    <script src="{% static 'openstack_platform/jquery-easyui-1.5.3/jquery.easyui.min.js' %}"></script>
+    <script src="{% static 'openstack_platform/bootstrap-3.3.7-dist/js/bootstrap.js' %}"></script>
+    <script src="{% static 'openstack_platform/js/script.js' %}"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script>
+        $(function() {
+            $( document ).tooltip();
+        });
+    </script>
+</head>
+<body>
+<div class="hd-main clearfix" id="header">
+	<a class="logo" href="{% url 'index' %}">
+		<img class="nav_image" alt="西南交通大学铁路安全培训平台" src="{% static 'openstack_platform/image/log.png' %}">
+		<img class="nav_zi" src="{% static 'openstack_platform/image/zi.png' %}"/>
+	</a>
+    <div class="nav-menu">
+		<span></span>
+		<span></span>
+		<span></span>
+	</div>
+    <div class="nav-list">
+        <div class="info">
+            <ul class="per-info" style="float: left;">
+                <li class="dropdown" style="float: left;padding-left: 15px">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <img class="btn nav_touxiang" role="button" src="{% static 'openstack_platform/image/hibo1.jpg' %}">
+                    </a>
+                </li>
+                <li class="name"><a href="#">{{ user.username }}</a></li>
+            </ul>
+            <a class="out-o" href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;安全退出</a>
+            <a style="padding-left: 50px;display: none" class="out-t" href="{% url 'logout' %}" aria-hidden="true">安全退出</a>
+        </div>
+    </div>
+</div>
+{% comment %}<nav class="navbar navbar-inverse" style="border-radius: 0;margin-bottom: 0">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <img class="nav_image" alt="西南交通大学铁路安全培训平台" src="{% static 'openstack_platform/image/log.png' %}">
+                <p class="nav_zi"><img src="{% static 'openstack_platform/image/zi.png' %}"
+                                                                  alt="西南交通大学铁路安全培训平台"></p>
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown" style="float: left;">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button">
+                        <img class="btn nav_touxiang" role="button" src="{% static 'openstack_platform/image/hibo1.jpg' %}">
+                    </a>
+                </li>
+                <li class="name" style="margin-top: 15px">{{ user.username }}</li>
+                <li class="nav_exit same"><a href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;安全退出</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>{% endcomment %}
+<section class="section">
+    <div class="center">
+        <div>
+            <a href="{% url 'course:list' %}" class="exper">
+                <img src="{% static 'openstack_platform/image/kecheng.jpg' %}"><span>课程管理</span>
+            </a>
+        </div>
+        <div>
+            <a href="{% url 'experiment:myexperi' %}" class="exper">
+                <img src="{% static 'openstack_platform/image/exper.jpg' %}">
+                <span>实验管理</span>
+            </a>
+        </div>
+        <div>
+            <a href="{% url 'users:usercenter' %}" class="exper">
+                <img src="{% static 'openstack_platform/image/person.jpg' %}">
+                <span>个人中心</span>
+            </a>
+        </div>
+        <div>
+            <a href="{% url 'examination:myexam' %}" class="exper" style="margin-right: 0">
+                <img src="{% static 'openstack_platform/image/exam.jpg' %}">
+                <span>考试中心</span>
+            </a>
+        </div>
+    </div>
+</section>
+<script>
+    $('.nav-menu').click(function(){
+		$('.nav-list').toggleClass('open');
+		$('.out-t').toggle();
+	})
+</script>
+</body>
+</html>

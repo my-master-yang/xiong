@@ -1,0 +1,142 @@
+
+{% load staticfiles %}
+ <title>课程管理</title>
+    <link rel="stylesheet" href="{% static 'openstack_platform/jquery-easyui-1.5.3/themes/color.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/font-awesome-4.7.0/css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/jquery-easyui-1.5.3/themes/default/easyui.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/jquery-easyui-1.5.3/themes/icon.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/jquery-easyui-1.5.3/demo/demo.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/bootstrap-3.3.7-dist/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/a-manage.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/zenburn.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/alert.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/markdown.css' %}">
+<link rel="stylesheet" href="{% static 'openstack_platform/css/base.css' %}">
+    <script src="{% static 'openstack_platform/js/alert.js' %}"></script>
+    <script src="{% static 'openstack_platform/jquery-easyui-1.5.3/jquery-1.9.0.min.js' %}"></script>
+    <script src="{% static 'openstack_platform/js/script.js' %}"></script>
+    <script src="{% static 'openstack_platform/jquery-easyui-1.5.3/jquery.min.js' %}"></script>
+    <script src="{% static 'openstack_platform/jquery-easyui-1.5.3/jquery.easyui.min.js' %}"></script>
+    <script src="{% static 'openstack_platform/bootstrap-3.3.7-dist/js/bootstrap.js' %}"></script>
+</head>
+<body>
+<div class="hd-main clearfix" id="header">
+	<a class="logo" href="{% url 'index' %}">
+		<img class="nav_image" alt="西南交通大学铁路安全培训平台" src="{% static 'openstack_platform/image/log.png' %}">
+		<img class="nav_zi" src="{% static 'openstack_platform/image/zi.png' %}"/>
+	</a>
+    <div class="nav-menu">
+		<span></span>
+		<span></span>
+		<span></span>
+	</div>
+    <div class="nav-list">
+        <div class="navs">
+            <a class="navs-child mycourse">课程管理</a>
+            <a class="navs-child mylab" style="color: #8dbff7">实验管理</a>
+            <a class="navs-child usercenter">个人中心</a>
+            <a class="navs-child myexam">考试中心</a>
+        </div>
+        <div class="info">
+            <ul class="per-info" style="float: left;margin: 0;padding: 0 10px;line-height: 1.3">
+                <li class="dropdown" style="float: left;padding-left: 5px;">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <img class="btn nav_touxiang" role="button" src="{% static 'openstack_platform/image/hibo1.jpg' %}">
+                    </a>
+                </li>
+                <li class="name">{{ user.username }}</li>
+            </ul>
+            <a class="out-o" href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;安全退出</a>
+            <a style="padding-left: 13px" class="out-t" href="{% url 'logout' %}">安全退出</a>
+        </div>
+    </div>
+</div>
+<section class="section">
+    <div class="center3" >
+        <div class="iframe">
+            <div class="iframe_content">
+                {{ lab.detail|safe }}
+            </div>
+        </div>
+    </div>
+    <div class="go-top">
+        <a href="#header">
+            <i class="fa fa-angle-up" aria-hidden="true"></i>
+            <div class="re-top" style="display: none">返回顶部</div>
+        </a>
+    </div>
+    <div class="chose-page">
+        <div class="back-page">
+            <div class="away">
+                <i class="fa fa-backward" aria-hidden="true"></i>
+                <span>返回实验列表</span>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+        function transurl(url){
+        var M = {};
+        if(M.dialog1){
+            M.dialog1.show();
+        }
+        M.dialog1 = jqueryAlert({
+            'style'   : 'pc',
+            'title'   : '提示！',
+            'content' :  '请确认是否离开此页...',
+            'width'        : '250px', //宽度
+            'height'       : '140px', //高度
+            'modal'   : true,
+            'contentTextAlign' : 'left',
+            'animateType': 'scale',
+            'bodyScroll' : 'true',
+            'buttons' : {
+                '离开此页' : function(){
+                    location.href = url;
+                },
+                '留在此页' : function(){
+                    M.dialog1.close();
+                }
+            }
+        });
+    };
+     $(document).delegate(".mycourse",'click',function(){
+        var url = "{% url 'course:list'%}";
+        transurl(url);
+     })
+     $(document).delegate(".myexam",'click',function(){
+        var url = "{% url 'examination:myexam'%}";
+        transurl(url);
+     })
+     $(document).delegate(".mylab",'click',function(){
+        var url = "{% url 'experiment:myexperi'%}";
+        transurl(url);
+     })
+     $(document).delegate(".back-page",'click',function(){
+        var url = "{% url 'experiment:myexperi'%}";
+        transurl(url);
+     })
+     $(document).delegate(".logout", 'click', function () {
+         var url = "{% url 'logout'%}";
+         transurl(url);
+     })
+     $(document).delegate(".usercenter", 'click', function () {
+         var url = "{% url 'users:usercenter'%}";
+         transurl(url);
+     })
+</script>
+<script>
+{% comment %}	$(document).click(function(){
+		$('.nav-list').removeClass('open')
+	})
+	$('.nav-menu,.nav-list').click(function(e){e.stopPropagation()})
+	$('.hd-main').find('.nav-menu').click(function(e){
+		$('.nav-list').toggleClass('open')
+	}){% endcomment %}
+    $('.nav-menu').click(function(){
+		$('.nav-list').toggleClass('open')
+	})
+</script>
+</body>
+</html>

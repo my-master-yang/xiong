@@ -1,0 +1,358 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+<html>
+<head>
+<meta http-equiv="refresh" content="1">
+    {% block title %}实验管理-我的实验台{% endblock %}
+    {% block custom_css %}
+        <link rel="stylesheet" href="{% static 'openstack_platform/css/a-experiment.css' %}">
+        <link rel="stylesheet" href="{% static 'openstack_platform/css/global.css' %}">
+        <link rel="stylesheet" href="{% static 'openstack_platform/css/loading.css' %}">
+        <link rel="stylesheet" href="{% static 'openstack_platform/css/slide.css' %}">
+{#    <link rel="stylesheet" href="{% static 'openstack_platform/css/scrollBar.css' %}">#}
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/a-manage.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/base.css' %}">
+    {% endblock %}
+    {% block custom_js %}
+        <script src="{% static 'openstack_platform/js/highcharts.js' %}"></script>
+        <script src="{% static 'openstack_platform/js/test.js' %}"></script>
+        <script src="{% static 'openstack_platform/js/jquery-1.11.3.min.js' %}"></script>
+        <script src="{% static 'openstack_platform/js/loading.js' %}"></script>
+        <script src="{% static 'openstack_platform/js/slide.js' %}"></script>
+    {% endblock %}
+</head>
+<body>
+{% block section %}
+    <section class="section">
+       <div class="center1">
+            <div class="type">
+                <div class="type_sort">
+                    <span class="type_condition">分类:</span>
+                    <ul class="type_sort_cont">
+                        <li class="sort_cont {% ifequal labcategory_id ''|stringformat:"i" %}type_active{% endifequal %}">
+                            <a href="{% url 'experiment:myexperi' %}">全部</a>
+                        </li>
+                        {% for labcate in labcategory %}
+                            <li class="sort_cont {% ifequal labcategory_id labcate.id|stringformat:"i" %}type_active{% endifequal %}">
+                                <a href="?lcid={{ labcate.id }}">{{ labcate.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="type_degree">
+                    <span class="type_condition">难度:</span>
+                    <ul class="type_degree_cont">
+                        <li class="degree_cont {% ifequal lab_level 'all' %}type_active{% endifequal %} "><a href="?lcid={{ labcategory_id }}&lablevel=all">全部</a></li>
+                        <li class="degree_cont {% ifequal lab_level 'cj' %}type_active{% endifequal %} "><a href="?lcid={{ labcategory_id }}&lablevel=cj">初级</a></li>
+                        <li class="degree_cont {% ifequal lab_level 'zj' %}type_active{% endifequal %} "><a href="?lcid={{ labcategory_id }}&lablevel=zj">中级</a></li>
+                        <li class="degree_cont {% ifequal lab_level 'gj' %}type_active{% endifequal %} "><a href="?lcid={{ labcategory_id }}&lablevel=gj">高级</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="center2">
+            <div class="menu_content" style="display: block">
+                <div id="vertical" class="scrollbox clearfix" style="min-height: 450px">
+                        <div class="sly" data-options='{ "scrollBy": 100 }'>
+                            {% for labitem in lab %}
+                                <div class="singleCourse">
+                                    <div class="course">
+                                        <div class="image">
+                                            <img class="scrollLoading"
+                                                 src="/media/{{ labitem.image }}"/>
+                                        </div>
+                                        <ul class="introduce">
+                                            <li class="course_name" id="first" name="first"><strong>{{ labitem.name }}</strong></li>
+                                            <li class="introduce_li">
+                                                <div class="coll-num">
+                                                    <div class="num">
+                                                        <i class="fa fa-users" aria-hidden="true"></i>
+                                                        <span class="number">{{ labitem.students }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="difficult">
+                                                    <i  class="fa fa-signal" aria-hidden="true"></i>
+                                                    <span>难度:</span>
+                                                    <span style="color: #da8f00">{{ labitem.get_degree_display }}</span>
+                                                    <a class="collect" href="javascript:void(0)" onclick="shoucang({{ labitem.pk }})">
+                                                        <span class="coll-ing"><i class="fa fa-star fa-lg star"></i>收藏</span>
+                                                        <span class="coll-ed"><i class="fa fa-star fa-lg star"></i>已收藏</span>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                            <li class="learning">
+                                                <div class="guide">
+                                                    <a onClick="showdetil('{{ labitem.pk }}');">实验指导书</a>
+                                                </div>
+                                                <ul class="trial">
+                                                {% ifequal buttonlive "show" %}
+                                                    <li><a class="shiyan" type="button"
+                                                           onClick="createinstance('{{ labitem.pk }}');">开始实验</a></li>
+                                                {% else %}
+                                                    <li><a class="shiyan" type="button"
+                                                           style="border-color: #6a6a6a;opacity:.5;cursor: no-drop">开始实验</a>
+                                                    </li>
+                                                {% endifequal %}
+                                                 </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="slide-all">
+        <div class="slide-outer">
+            {% for lab_show in instancelive %}
+                <div class="slide-content">
+                    <div class="slide-inner">
+                        <span class="shiyan-name">{{ lab_show.labName }}</span>
+                        <ul class="buttons">
+                            <li><input class="continue" type="button" value="继续实验"
+                                       onClick="continueLab('{{ lab_show.labID }}','{{ lab_show.instanceID }}')"/></li>
+                            <li><input class="over" type="button" value="结束实验" onclick="deleteLab({{ lab_show.pk }})"/>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="visible">
+                <i class="fa fa-plus-square" aria-hidden="true"></i>
+                <span class="openTop openLeft">实验进行中</span>
+            </div>
+        </div>
+        <div class="slide-outer-exam">
+            <div class="slide-content-exam">
+                <div class="slide-inner">
+                    <span class="shiyan-name">考试科目名称</span>
+                    <ul class="buttons">
+                        <li><input class="continue" type="button" value="继续考试"/></li>
+                        <li><input class="over" type="button" value="结束考试"/></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="visible-exam slide">
+                <i class="fa fa-plus-square" aria-hidden="true"></i>
+                <span class="openTop openLeft">考试进行中</span>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(".visible").click(function () {
+            $(".slide-content").slideToggle(500);
+            if ($(".slide-content").css("display", "block")) {
+                $(".slide-content-exam").css("display", "none");
+            }
+        })
+        $(".visible-exam").click(function () {
+            $(".slide-content-exam").slideToggle(500);
+            if ($(".slide-content-exam").css("display", "block")) {
+                $(".slide-content").css("display", "none");
+            }
+        })
+    </script>
+    <script>
+
+         function shoucang(agu) {
+             $.ajaxSetup({
+             data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+       　　　 });
+             var labpk = agu;
+             var labpkjson = JSON.stringify(labpk);
+             $.ajax({
+                 type: "POST",
+                 url: '{% url "experiment:collection" %}',
+                 data: {'labpkjson': labpkjson},
+                 dataType: "json",
+                 success: function (status) {
+                     if (status.status == 1) {
+                         alert("该实验已取消收藏");
+                     }
+                     else {
+                         alert("实验收藏成功");
+                     }
+                 }
+             })
+             }
+
+
+        function startloading() {
+            $('body').loading({
+                loadingWidth: 220,
+                title: '提示',
+                name: 'testloading',
+                titleColor: '#fff',
+                discColor: '#EDEEE9',
+                discription: '正在加载，请稍等...',
+                direction: 'column',
+                type: 'origin',
+                originBg: '#96deec',
+                originDivWidth: 40,
+                originDivHeight: 40,
+                originWidth: 6,
+                originHeight: 6,
+                smallLoading: false,
+                loadingBg: 'rgba(33, 30, 23, 0.8)',
+                loadingMaskBg: 'rgba(66,66,66,0.2)'
+            });
+        }
+
+        function createinstance(lab_id) {
+            $.ajaxSetup({
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+            });
+            startloading();
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "{% url 'instance:createinstance' %}",
+                data: {"lab_id": lab_id},
+                async: true,
+                success: function (data) {
+                    if (data.status === 'success') {
+                        {#alert("创建成功")#}
+                        {#startloading();#}
+                        myStartFunction(lab_id);
+                    } else if (data.status === 'fail') {
+                        removeLoading('testloading');
+                        alert("创建失败,请联系管理员");
+                    }
+                }
+            });
+        }
+
+
+        function showdetil(lab_id) {
+            $.ajaxSetup({
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+            });
+            loading(lab_id);
+        }
+        //加载中
+        function loading(agu) {
+            $('body').loading({
+                loadingWidth: 220,
+                title: '提示',
+                name: 'test',
+                titleColor: '#fff',
+                discColor: '#EDEEE9',
+                discription: '正在加载，请稍等...',
+                direction: 'column',
+                type: 'origin',
+                originBg: '#96deec',
+                originDivWidth: 40,
+                originDivHeight: 40,
+                originWidth: 6,
+                originHeight: 6,
+                smallLoading: false,
+                loadingBg: 'rgba(33, 30, 23, 0.8)',
+                loadingMaskBg: 'rgba(66,66,66,0.2)'
+            });
+            setTimeout(endloading, 2000, agu);
+        }
+
+        function endloading(agus) {
+            var url = "{% url 'experiment:experilabdetail' 12345 %}";
+            url = url.replace('12345', agus);
+            removeLoading('test');
+            location.href = url;
+        }
+
+
+
+        var myVar;
+        function myStartFunction(lab_id) {
+            myVar = setInterval(function () {
+                checknewinstance(lab_id)
+            }, 5000);
+        }
+
+        function checknewinstance(lab_id) {
+            $.ajaxSetup({
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+            });
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "{% url 'instance:checknewinstance' %}",
+                data: {"lab_id": lab_id},
+                async: true,
+                success: function (data) {
+                    if (data.status === 'success') {
+                        {#alert("轮训成功");#}
+                        clearInterval(myVar);
+                        removeLoading('testloading');
+
+                        var url = "{% url 'experiment:experilab' 12345 12346%}";
+                        url = url.replace('12345', lab_id);
+                        url = url.replace('12346', data.instance_id);
+                        location.href = url;
+                        {#window.location.reload();#}
+                    } else if (data.status === 'BUILD') {
+                        {#alert("轮训中")#}
+                    }
+                }
+            });
+        }
+
+        function deleteLab(lab_pk) {
+            {#alert(lab_pk);#}
+            $.ajaxSetup({
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+            });
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "{% url 'instance:deletelab' %}",
+                data: {"lab_pk": lab_pk},
+                async: true,
+                success: function (data) {
+                    if (data.status === 'success') {
+                        window.location.reload();
+                        {#alert("结束实验成功");#}
+
+                    } else if (data.status === 'BUILD') {
+                        {#alert("轮训中")#}
+                    }
+                }
+            });
+        }
+
+        function continueLab(lab_id, instance_id) {
+            {#alert(lab_pk);#}
+            {#alert(instance_id);#}
+            var url = "{% url 'experiment:experilab' 12345 12346%}";
+            url = url.replace('12345', lab_id);
+            url = url.replace('12346', instance_id);
+            location.href = url;
+        }
+
+        // django ajax post方法需要的csrf认证
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function csrfSafeMethod(method) {
+// these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+    </script>
+{% endblock %}
+</body>
+</html>

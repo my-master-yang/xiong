@@ -1,0 +1,16 @@
+name: liutao
+imagetype: image_id
+image: cirros
+flavor: m1.tiny
+keypair_id: ''
+security_group_id: [windows, default]
+dev_mapping_1:
+dev_mapping_2:
+network_name: [internet]
+avail_zone: nova
+count: 1
+admin_pass: ''
+disk_config: AUTO
+config_drive: False
+scheduler_hints: {}
+custom_script: ''

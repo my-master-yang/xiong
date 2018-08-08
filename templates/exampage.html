@@ -1,0 +1,244 @@
+﻿{% load staticfiles %}
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{{ title }}</title>
+<link href="{% static 'openstack_platform/css/main.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'openstack_platform/css/iconfont.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'openstack_platform/css/test.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'openstack_platform/css/examAlert.css' %}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{% static 'openstack_platform/font-awesome-4.7.0/css/font-awesome.css' %}">
+<script src="{% static 'openstack_platform/js/jquery-1.11.3.min.js' %}"></script>
+<script src="{% static 'openstack_platform/js/jquery.easy-pie-chart.js' %}"></script>
+<script src="{% static 'openstack_platform/js/jquery.countdown.js' %}"></script>
+<script src="{% static 'openstack_platform/js/examAlert.js' %}"></script>
+<script src="{% static 'openstack_platform/js/script.js' %}"></script>
+
+</head>
+<body>
+<div class="main" id="header">
+	<!--nr start-->
+	<div class="test_main">
+		<div class="nr_left">
+			<div class="test">
+				<form action="" method="POST" id="formexam">
+                    {% csrf_token %}
+					{% for question_now in question %}
+                        <div>
+                            {% if question_now.questionType == 'xz' %}
+                                <from id="{{ question_now.id }}">
+                                    <div class="test_content">
+                                        <div class="test_content_title">
+                                            <h2>单选题</h2>
+                                        </div>
+                                    </div>
+                                    <div class="test_content_nr">
+                                        <ul>
+                                            <li id="{{ question_now.id }}">
+                                            <div class="test_content_nr_tt">
+                                                <i>{{ forloop.counter }}</i><span>({{ question_now.score }}分)</span><font>{{ question_now.content}}</font>
+                                            </div>
+                                            <div  class="test_content_nr_main">
+                                                <ul>
+                                                    <li class="option">
+                                                            <input type="radio" class="radioOrCheck"  name="{{ question_now.id }}"
+                                                                   id="{{ question_now.id }}_answer01"  value="A"/>
+                                                        <label for="{{ question_now.id }}_answer01">A.<p style="display: inline;">{{ question_now.OptionA }}</p></label>
+                                                    </li>
+                                                    <li class="option">
+                                                            <input type="radio" class="radioOrCheck" name="{{ question_now.id }}"
+                                                                   id="{{ question_now.id }}_answer02" value="B"/>
+                                                        <label for="{{ question_now.id }}_answer02">B.<p style="display: inline;">{{ question_now.OptionB }}</p></label>
+                                                    </li>
+                                                    <li class="option">
+                                                            <input type="radio" class="radioOrCheck" name="{{ question_now.id }}"
+                                                                   id="{{ question_now.id }}_answer03"  value="C"/>
+                                                        <label for="{{ question_now.id }}_answer03">C.<p style="display: inline;">{{ question_now.OptionC }}</p></label>
+                                                    </li>
+                                                    <li class="option">
+                                                            <input type="radio" class="radioOrCheck" name="{{ question_now.id }}"
+                                                                   id="{{ question_now.id }}_answer04"  value="D"/>
+                                                        <label for="{{ question_now.id }}_answer04">D.<p style="display: inline;">{{ question_now.OptionD }}</p></label>
+                                                    </li>
+                                                 </ul>
+                                            </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </from>
+                            {% endif %}
+                            {% if question_now.questionType == 'pd' %}
+                                <from id="{{ question_now.id }}">
+                                    <div class="test_content">
+                                        <div class="test_content_title">
+                                            <h2>判断题</h2>
+                                        </div>
+                                    </div>
+                                    <div class="test_content_nr">
+                                        <ul>
+                                            <li id="{{ question_now.id }}">
+                                            <div class="test_content_nr_tt">
+                                                <i>{{ forloop.counter }}</i><span>({{ question_now.score }}分)</span><font>{{ question_now.content}}</font><b class="icon iconfont">&#xe881;</b>
+                                            </div>
+                                            <div class="test_content_nr_main">
+                                                <ul>
+                                                    <li class="option">
+                                                            <input type="radio" class="radioOrCheck"  name="{{ question_now.id }}"
+                                                                   id="{{ question_now.id }}" value="正确"/>
+                                                        <label for="{{ question_now.id }}">A.<p style="display: inline;">{{ question_now.boolt }}</p></label>
+                                                    </li>
+                                                    <li class="option">
+                                                            <input type="radio" class="radioOrCheck" name="{{ question_now.id }}"
+                                                                   id="{{ question_now.id }}" value="错误"/>
+                                                        <label for="{{ question_now.id }}">B.<p style="display: inline;">{{ question_now.boolf }}</p></label>
+                                                    </li>
+                                                 </ul>
+                                            </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </from>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </form>
+            </div>
+        </div>
+		<div class="nr_right">
+			<div class="nr_rt_main">
+				<div class="rt_nr1">
+					<div class="rt_nr1_title">
+						<h1>答题卡</h1>
+						<p class="test_time">
+                            <b>考试用时</b>
+{#							<b class="alt-1">01:00</b>#}
+                            <b id="timer"></b>
+						</p>
+					</div>
+					<div class="rt_content">
+                            <div class="rt_content_tt">
+                                <h2>试题</h2>
+                                <p>
+                                    <span>共</span><i class="content_lit">{{ question_count }} </i><span>题</span>
+                                </p>
+                            </div>
+                            <div class="rt_content_nr answerSheet">
+                                <ul>
+                                    {% for question_now in question %}
+                                        <li><a href="#{{ question_now.id }}">{{ forloop.counter }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                    </div>
+                    <div class="test_title">
+                        <font><input type="button" id="test_jiaojuan" name="test_jiaojuan" value="提前交卷"></font>
+                    </div>
+                    <div class="go-top">
+                        <a href="#header">
+                            <i class="fa fa-angle-up" aria-hidden="true"></i>
+                            <div class="re-top" style="display: none">返回顶部</div>
+                        </a>
+                    </div>
+		    	</div>
+		    </div>
+	    </div>
+	<div class="foot"></div>
+</div>
+<script>
+	window.jQuery(function($) {
+		"use strict";
+
+		{#$('time').countDown({#}
+         {#   with_separators: false#}
+
+		{#$('.alt-1').countDown({#}
+		{#	css_class : 'countdown-alt-1'#}
+
+		{#$('.alt-2').countDown({#}
+		{#	css_class : 'countdown-alt-2'#}
+
+	});
+
+	var maxtime = {{ exam_times | safe }}* 60; //一个小时，按秒计算!
+     function CountDown() {
+         if (maxtime >= 0) {
+                 minutes = Math.floor(maxtime / 60);
+                  seconds = Math.floor(maxtime % 60);
+                  msg = minutes + ":" + seconds ;
+                  document.all["timer"].innerHTML = msg;
+                  if (maxtime == 10* 60)alert2("考试剩余10分钟，注意把握时间");
+                      --maxtime;
+              }
+              else {
+             clearInterval(timer);
+             endexamination();
+         }
+
+         }
+     timer = setInterval("CountDown()", 1000);
+    function alert2(e){
+        $("body").append('<div class="msg_back"></div><div id="msg"><div id="msg_top">提示!<span class="msg_close">×</span></div>' +
+            '<div id="msg_cont">'+e+'</div><div class="msg_close" id="msg_clear">确认</div></div>');
+        $(".msg_close").click(function (){
+            $("#msg").remove();
+            $(".msg_back").remove();
+        });
+    }
+	$(function() {
+		$('li.option').click(function() {
+		{#debugger;#}
+			var examId = $(this).closest('.test_content_nr_main').closest('li').attr('id'); // 得到题目ID
+			var cardLi = $('a[href=#' + examId + ']'); // 根据题目ID找到对应答题卡
+			// 设置已答题
+			if(!cardLi.hasClass('hasBeenAnswer')){
+				cardLi.addClass('hasBeenAnswer');
+			}
+		});
+	})
+</script>
+
+<script type="text/javascript">
+    function submitForm() {
+        {#document.getElementById("formexam").setAttribute("used_times",msg);#}
+
+        var myform=$('#formexam');        //得到form对象
+        var tmpInput=$("<input type='text' name='available_times'/>");
+        tmpInput.attr("value", msg);
+        myform.append(tmpInput);
+        myform.submit();
+
+        {#document.getElementById("formexam").submit();#}
+    }
+    function endexamination() {
+        $('.exam-end').addClass('is-visible');
+    }
+</script>
+<div class="cd-popup" role="alert">
+	<div class="cd-popup-container">
+		<div class="bg_close"><span class="tip">提示!</span><a href="#" class="cd-popup-close img-replace">关闭</a></div>
+		<p>请确认是否交卷</p>
+		<ul class="cd-buttons">
+			<li><a href="#" onclick="submitForm()">确定</a></li>
+			<li><a href="#" class="close">取消</a></li>
+		</ul>
+	</div>
+</div>
+<div class="exam-end">
+    <div class="exam-end-front">
+        <div class="exam-end-top">
+            考试结束
+        </div>
+        <div class="exam-end-cont">
+            <div class="exam-end-content">考试时间到，请交卷。</div>
+        </div>
+        <ul class="exam-end-sure">
+            <li><a href="#" onclick="submitForm()">确定</a></li>
+        </ul>
+    </div>
+    <div class="exam-end-back"></div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+.theme{
+    height: 130px;
+    width: 1470px;
+    color: #ffffff;
+}
+.experiment_lab{
+    height: 70px;
+    width: 1470px;
+}
+.style_main{
+    float: left;
+    width: 293.4px;
+    height: 54px;
+    font-size: 29px;
+    color: rgb(255, 255, 255);
+    font-family: 华文中宋;
+    font-weight: bold;
+    margin: 19px 10px 0px 0px;
+    line-height: 1.7;
+    text-align: left;
+    border-radius: 5px;
+}
+.line1{
+    float: left;
+    height: 1.8px;
+    width: 1470px;
+    opacity: .8;
+    background-color: #d6d6d2;
+    color: #d6d6d2;
+}
+.list li {
+    width: 202px;
+    height: auto;
+    float: left;
+    margin: 40px 40px 10px 50px;
+    border: 1px solid #2e3133;
+    background-color: #323638;
+}

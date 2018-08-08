@@ -1,0 +1,387 @@
+html{
+    height: 100%;
+}
+body{
+    min-width: 700px;
+    background-color: #e4e4e4;
+}
+li{
+    list-style-type: none;
+}
+.section{
+    /*    background: -webkit-radial-gradient(circle,#44b0ce, #1b617b); !* Safari 5.1 - 6.0 *!
+    background: -o-radial-gradient(circle,#44b0ce, #1b617b); !* Opera 11.6 - 12.0 *!
+    background: -moz-radial-gradient(circle,#44b0ce, #1b617b); !* Firefox 3.6 - 15 *!
+    background: radial-gradient(circle,#44b0ce, #1b617b);*/
+}
+/*aa...start*/
+.dropdown-menu{
+    position: absolute;
+}
+.center1{
+    width: 100%;
+    height: auto;
+    font-size: 15px;
+    box-shadow: 2px 3px 5px #d0d0d0;
+}
+
+.center1 a{
+    text-decoration: none;
+    color: black;
+}
+.center2{
+    width: 100%;
+    height: auto;
+    padding: 20px 0 80px 0;
+    background-color: #ececec;
+}
+.center3{
+    width: 100%;
+    height: auto;
+}
+.type{
+    padding: 20px 15px 0;
+}
+@media (min-width:1101px) {
+    .type, .menu_content, .iframe, .user_top, .user_bottom, .exame_bottom{
+        width: 1000px;
+        margin: 0 auto;
+    }
+}
+@media (min-width:1601px) {
+    .type, .menu_content, .iframe, .user_top, .user_bottom, .exame_bottom{
+        width: 1200px;
+        margin: 0 auto;
+    }
+}
+@media (max-width:1100px) {
+    .type, .menu_content, .iframe,  exame_bottom{
+        width: 800px;
+        margin: 0 auto;
+    }
+}
+ .user_top, .user_bottom{
+     min-width: 1000px;
+ }
+.type_sort, .type_direction, .type_degree{
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #dcdcdc;
+    line-height: 54px;
+    position: relative;
+    overflow: hidden;
+}
+.type_degree{
+    border-bottom: 0;
+}
+.type_sort .type_sort_cont, .type_direction .type_direction_cont, .type_degree .type_degree_cont{
+    overflow: hidden;
+    position: relative;
+    color: #555555;
+    margin: 20px 0 0 0;
+}
+.type_sort .type_sort_cont li, .type_direction .type_direction_cont li, .type_degree .type_degree_cont li{
+    float: left;
+    margin: 0 10px 15px 10px;
+    list-style: none;
+    height: 26px;
+    line-height: 20px;
+    text-align: center;
+    cursor: pointer;
+    white-space: nowrap;
+    padding: 2px 8px;
+}
+.type_condition{
+    float: left;
+    width: 50px;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #333333;
+    height: 60px;
+    line-height: 54px;
+}
+.type_active{
+    background-color: #6a757d!important;
+}
+.type_active a{
+    color: white;
+}
+.dropdown_list li{
+    height: 60px;
+    line-height: 3;
+    padding: 10px;
+    font-size: 17px;
+    z-index: 1;
+}
+.dropdown_list a{
+    color: #ffffff;
+    padding: 10px 0 10px 0;
+    position: relative;
+}
+.dropdown_list .style_fa2{
+}
+.dropdown_list > li> a:hover, .dropdown_list > li > a:focus{
+    text-decoration: none;
+    color: white;
+}
+.menu_content  .singleCourse{
+    width: 25%;
+    float: left;
+    margin: 20px 0 30px 0;
+    cursor: pointer;
+}
+.menu_content .course{
+    height: auto;
+    overflow: hidden;
+    margin: 0 15px;
+    border-radius: 10px;
+    padding-bottom: 7px;
+    box-shadow: 0 1px 5px 0 #adadad;
+}
+.menu_content .course:hover{
+    box-shadow: 3px 6px 20px 2px #8a9294;
+}
+.menu_content .course .image{
+    width: 100%;
+}
+.menu_content .course .image img{
+    max-width: 100%;
+    min-width: 100%;
+}
+.menu_content .course .introduce{
+    margin: 0 10px;
+}
+.menu_content .course .course_name{
+    height: 40px;
+    line-height: 20px;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+.menu_content .course .introduce li{
+     list-style-type: none;
+}
+.menu_content .course .introduce_li{
+    color: #585858;
+    font-size: 14px;
+    height: 45px;
+    /*border-bottom: 1px solid #dadada;*/
+}
+.menu_content .course .introduce_li .difficult{
+    padding: 12px 0;
+}
+.menu_content .course .introduce_li .difficult .collect{
+    float: right;
+    color: #da8f00;
+}
+.menu_content .course .introduce_li .difficult .collect .coll-ing{
+    color: #da8f00;
+}
+.menu_content .course .introduce_li .difficult .collect .coll-ed{
+    color: #0062ca;
+    display: none;
+}
+.menu_content .course .introduce_li .difficult .collect .coll-ing:hover{
+    color: #0062ca;
+}
+.menu_content .course .introduce_li .difficult .in_exam{
+    float: right;
+    color: #da8f00;
+}
+.menu_content .course .introduce_li .difficult .in_exam:hover{
+    color: #0062ca;
+}
+.menu_content .course .introduce_li .coll-num{
+    padding: 5px 0 10px 0
+}
+.menu_content .course .introduce_li .coll-num .num{
+    float: right;
+}
+.menu_content .course .introduce .brief{
+    display: none;
+}
+.menu_content .course .introduce .read{
+    text-align: right;
+    height: 25px;
+    float: right;
+    margin-top: 10px;
+    padding: 0 10px;
+    line-height: 24px;
+    color: #000000;
+    position: absolute;
+    right: 35px;
+    bottom: 15px;
+    display: none;
+}
+.panel-body{
+    padding: 0;
+}
+input[type="checkbox"]{
+    margin-top: 0;
+}
+.datagrid .datagrid-pager,.datagrid-td-rownumber,.datagrid-cell-rownumber,.datagrid-header-row,.panel-body,.datagrid-view1{
+    background-color: #7aacc1
+}
+/*aa...end*/
+/*course,experimentdetail...start*/
+.iframe_content{
+    width: 100%;
+    background-color: #e8e8e8;
+    padding-top: 10px;
+    color: #000;
+    padding-bottom: 70px;
+    height: 90%;
+}
+.go-top{
+    position: fixed;
+    right: 10px;
+    bottom: 60px;
+    width: 40px;
+    height: 40px;
+    background-color: #76a2c4;
+}
+.go-top .fa-angle-up{
+    font-size: 30px;
+    line-height: 1.2;
+    padding-left: 9px;
+}
+.go-top .re-top{
+    line-height: 1.3;
+    padding: 2px 5px;
+    color: white;
+}
+.chose-page{
+    width: 100%;
+    height: 50px;
+    background-color: #e0e0e0;
+    position: fixed;
+    bottom: 0;
+}
+.chose-page .back-page{
+    font-size: 17px;
+    float: right;
+    line-height: 3;
+    /*margin-right: 20px;*/
+    color: #336d98;
+}
+.chose-page .back-page .play{
+    float: left;
+    cursor: pointer;
+    padding: 0 10px;
+}
+.play:hover, .away:hover{
+    background-color: #587d98;
+    color: white;
+}
+.chose-page .back-page .play .fa-pause{
+    display: none;
+}
+.chose-page .back-page .away{
+    float: right;
+    margin-left: 50px;
+    cursor: pointer;
+    padding: 0 10px;
+}
+.pa{
+    margin-left: 10px;
+}
+.pa1{
+    margin-right: 10px;
+    font-size: 22px;
+}
+.pa2{
+    font-size: 22px;
+}
+.bg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background-color: #000;
+    opacity: 0.5;
+    display: none;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.bg-videodiv {
+    width: 800px;
+    height: 550px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -400px;
+    margin-top: -275px;
+    z-index: 10001;
+    display: none;
+    background-color: #fff;
+    border-radius: 10px;
+}
+.bg-videodiv .close {
+    position: absolute;
+    float: right;
+    top: 33px;
+    right: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 18px;
+    color: #000000;
+    text-shadow: 0 1px 0 #ffffff;
+    opacity: 0.2;
+    filter: alpha(opacity=20);
+    width: 18px;
+    height: 18px;
+}
+.bg-videodiv .videoTitle {
+    width: 770px;
+    height: 25px;
+    margin: 30px auto 0;
+    line-height: 25px;
+}
+.bg-videodiv .videoTitle .videoName {
+    font-size: 18px;
+    color: #333;
+}
+.bg-videodiv .videoTitle .videoprovider {
+    font-size: 12px;
+    color: #888;
+}
+.bg-videodiv .videoTitle .videoNum {
+    font-size: 12px;
+    color: #888;
+    margin-left: 10px;
+}
+.bg-videodiv .videoTitle .videoList-bg {
+    position: relative;
+    float: right;
+    display: none;
+    margin-top: 8px;
+}
+.bg-videodiv #videoMenu {
+    margin: 0 auto 10px;
+}
+.bg-videodiv #videoMenu #learnbtn {
+    float: right;
+    margin-right: 5px;
+    height: 25px;
+    line-height: 10px;
+    border-radius: 0;
+    border: 1px solid #e2e2e2;
+    color: #676767;
+    background-color: #e8e8e8;
+}
+.bg-videodiv #videoMenu .btn2{
+    display: none;
+}
+.bg-videodiv #playerDiv {
+    width: 770px;
+    height: 440px;
+    background-size: contain;
+    cursor: pointer;
+    background-color: rgb(33, 33, 33);
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+}
+/*course,experimentdetail...end*/

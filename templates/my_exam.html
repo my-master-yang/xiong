@@ -1,0 +1,517 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}考试管理-我的考试{% endblock %}
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/a-exam.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/loading.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/slide.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/a-manage.css' %}">
+{% endblock %}
+{% block custom_js %}
+    <script src="{% static 'openstack_platform/js/highcharts.js' %}"></script>
+    <script src="{% static 'openstack_platform/js/test.js' %}"></script>
+    <script src="{% static 'openstack_platform/js/loading.js' %}"></script>
+    <script src="{% static 'openstack_platform/js/slide.js' %}"></script>
+{% endblock %}
+{% block section %}
+    <div class="section">
+        <div class="center1">
+            <div class="type">
+                <div class="dropdown all type_sort">
+                    <span class="type_condition">分类:</span>
+                    <ul class="type_sort_cont">
+                        {% for examcate in examcategory %}
+                            <li class="sort_cont {% ifequal examcategory_id examcate.id|stringformat:"i" %}type_active{% endifequal %}">
+                                <a href="{% url 'examination:myexam' %}?ecid={{ examcate.pk }}">{{ examcate.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="type_direction">
+                    <span class="type_condition">方向:</span>
+                    <ul class="type_direction_cont">
+                        <div class="myexame">
+                            <ul class="js_li">
+                                <li class="style_li type_active"><a href="#">自我评测</a></li>
+                                <li class="style_li"><a href="#">考试入口</a></li>
+                                <li class="style_li"><a href="#">错题分析</a></li>
+                            </ul>
+                        </div>
+                    </ul>
+                </div>
+                <div class="type_degree">
+                    <span class="type_condition">难度:</span>
+                    <ul class="type_degree_cont">
+                        <li class="degree_cont {% ifequal examlesson_level 'all' %}type_active{% endifequal %} "><a href="?ecid={{ examcategory_id }}&examlessonlevel=all">全部</a></li>
+                        <li class="degree_cont {% ifequal examlesson_level 'cj' %}type_active{% endifequal %} "><a href="?ecid={{ examcategory_id }}&examlessonlevel=cj">初级</a></li>
+                        <li class="degree_cont {% ifequal examlesson_level 'zj' %}type_active{% endifequal %} "><a href="?ecid={{ examcategory_id }}&examlessonlevel=zj">中级</a></li>
+                        <li class="degree_cont {% ifequal examlesson_level 'gj' %}type_active{% endifequal %} "><a href="?ecid={{ examcategory_id }}&examlessonlevel=gj">高级</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="center2">
+            <div class="exame_bottom">
+                <div class="con0">
+                    <div class="menu_content">
+                    <div class="singleCourse">
+                        {% for examitem in examlesson %}
+                            <div class="course">
+                                <a class="image">
+                                    <img class="scrollLoading" src="/media/{{ examitem.image }}"/>
+                                </a>
+                                <ul class="content_right introduce">
+                                    <li class="course_name"><strong>{{ examitem.name }}</strong></li>
+                                    <li class="introduce_li">
+                                        <div class="coll-num">
+                                            <div class="num">
+                                                <i class="fa fa-users" aria-hidden="true"></i>
+                                                <span>{{ examitem.students }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="difficult">
+                                            <i  class="fa fa-signal" aria-hidden="true"></i>
+                                            <span>难度:</span>
+                                            <span>{{ examitem.get_degree_display }}</span>
+                                            <a class="in_exam" type="button" onClick="startingexam({{ examitem.id }});">开始考试</a>
+                                        </div>
+                                    </li>
+                                    {% comment %}<li class="second">
+                                        <i class="fa fa-book fa-lg"></i>
+                                        <span>课程简介：</span>
+                                        <span>{{ examitem.desc }}</span>
+                                    </li>{% endcomment %}
+
+                                </ul>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                    {% comment %}<div class="con0_bottom">
+                        <div id="vertical" class="scrollbox clearfix">
+                            <div class="slyWrap example2" style="width: 1230px;height: 619px">
+                                <div class="sly" data-options='{ "scrollBy": 100 }' style="width: 1230px;height: 619px">
+                                    <div style="width: 1230px">
+                                         {% for examitem in examlesson %}
+                                            <div class="content_menu">
+                                                <div class="image"><img width="220" height="140" class="scrollLoading"
+                                                                        src="/media/{{ examitem.image }}"/>
+                                                </div>
+                                                <ul class="content_right">
+                                                    <li class="first"><strong>{{ examitem.name }}</strong></li>
+                                                    <li class="introduce_ex_li">
+                                                        <i  class="fa fa-signal" aria-hidden="true"></i>
+                                                        <span>难度:</span>
+                                                        <span>{{ examitem.get_degree_display }}</span>
+                                                        <span>&nbsp;考试人数：</span>
+                                                        <span>{{ examitem.students }}</span>
+                                                    </li>
+                                                    <li class="second">
+                                                        <i class="fa fa-book fa-lg"></i>
+                                                        <span>课程简介：</span>
+                                                        <span>{{ examitem.desc }}</span>
+                                                    </li>
+                                                    <li><a class="in_exam" type="button" onClick="startingexam({{ examitem.id }});">开始考试</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                         {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>{% endcomment %}
+                </div>
+                <div class="con1">
+                    <div class="background" style="display: none">
+                        <div class="title_exam">离本场考试还有01:30:56
+                            <button class="en_exam">进入考场</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="con2">
+                    <div class="background_chart" style="display: none">
+                        <div class="chart_circle">
+                            <div id="container"></div>
+                            <script>
+                                $(function () {
+                                    $('#container').highcharts({
+                                        chart: {
+                                            plotBackgroundColor: null,
+                                            plotBorderWidth: null,
+                                            plotShadow: false,
+                                            backgroundColor: 'rgba(0,0,0,0)',
+                                            margin: [80, 80, 80, 80] //距离上下左右的距离值
+                                        },
+                                        title: {
+                                            text: '各模块内容错误占比',
+                                            style: {
+                                                'fontSize': '25px',
+                                                'color': '#f4ecec'
+                                            }
+                                        },
+                                        tooltip: {
+                                            headerFormat: '{series.name}<br>',
+                                            pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>'
+                                        },
+                                        legend: {
+                                            enabled: true,
+                                            itemStyle: {
+                                                'color': '#f4ecec'
+                                            }
+                                        },
+                                        plotOptions: {
+                                            pie: {
+                                                allowPointSelect: true,
+                                                cursor: 'pointer',
+                                                dataLabels: {
+                                                    enabled: false,
+                                                },
+                                                showInLegend: true
+
+                                            }
+                                        },
+                                        series: [{
+                                            type: 'pie',
+                                            name: '模块内容错误占比',
+                                            data: [
+                                                ['A模块', 45.0],
+                                                ['B模块', 26.8],
+                                                {
+                                                    name: 'C模块',
+                                                    y: 12.8,
+                                                    sliced: true,
+                                                    selected: true
+                                                },
+                                                ['D模块', 8.5],
+                                                ['操作', 6.2],
+                                                ['其他', 0.7]
+                                            ]
+                                        }]
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="chart_column">
+                            <div id="container1" style="min-width:400px;height:400px"></div>
+                            <script>
+                                $(function () {
+                                    $('#container1').highcharts({
+                                        chart: {
+                                            type: 'column',
+                                            backgroundColor: 'rgba(0,0,0,0)'
+                                        },
+                                        title: {
+                                            text: '各模块错误比例',
+                                            style: {
+                                                'fontSize': '25px',
+                                                'color': '#fff5fa'
+                                            },
+                                        },
+                                        xAxis: {
+                                            categories: [
+                                                '一月',
+                                                '二月',
+                                                '三月',
+                                                '四月',
+                                                '五月',
+                                                '六月',
+                                                '七月',
+                                                '八月',
+                                                '九月',
+                                                '十月',
+                                                '十一月',
+                                                '十二月'
+                                            ],
+                                            crosshair: true,
+                                            labels: {//设置横轴坐标的显示样式
+                                                rotation: -45,//倾斜度
+                                                align: 'right',
+                                                style: {
+                                                    font: 'normal 13px Verdana, sans-serif',
+                                                    color: '#fdfdff'
+
+                                                }
+                                            }
+                                        },
+                                        yAxis: {
+                                            min: 0,
+                                            max: 100,
+                                            title: {
+                                                text: '错误率 (%)',
+                                                style: {
+                                                    'fontSize': '14px',
+                                                    'color': '#fff8f8'
+                                                }
+                                            },
+                                            labels: {
+                                                formatter: function () {
+                                                    return this.value + '%';
+                                                },
+                                                style: {
+                                                    'fontSize': '14px',
+                                                    'color': '#fff7fb'
+                                                }
+                                            }
+                                        },
+                                        tooltip: {
+                                            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                                            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                            '<td style="padding:0"><b>{point.y:.1f} %</b></td></tr>',
+                                            footerFormat: '</table>',
+                                            shared: true,
+                                            useHTML: true
+                                        },
+                                        legend: {
+                                            enabled: true,
+                                            itemStyle: {
+                                                'color': '#f4ecec'
+                                            }
+                                        },
+                                        plotOptions: {
+                                            column: {
+                                                pointPadding: 0.2,
+                                                borderWidth: 0
+                                            }
+                                        },
+                                        series: [{
+                                            name: '模块A',
+                                            data: [10, 20, 30, 80, 60, 70, 7, 8, 55, 22, 44, 12]
+                                        }, {
+                                            name: '模块B',
+                                            data: [33, 55, 12, 11, 3, 41, 55, 77, 13, 15, 78, 14]
+                                        }, {
+                                            name: '模块C',
+                                            data: [14, 2, 24, 45, 65, 3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
+                                        }, {
+                                            name: '模块D',
+                                            data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
+                                        }]
+                                    });
+                                });
+
+                            </script>
+                        </div>
+{#                        <button class="chart_button">查看详细分析</button>#}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slide-all">
+        <div class="slide-outer">
+            {% for lab_show in instancelive %}
+                <div class="slide-content">
+                    <div class="slide-inner">
+                        <span class="shiyan-name">{{ lab_show.labName }}</span>
+                        <ul class="buttons">
+                            <li><input class="continue" type="button" value="继续实验"
+                                       onClick="continueLab('{{ lab_show.labID }}','{{ lab_show.instanceID }}')"/></li>
+                            <li><input class="over" type="button" value="结束实验" onclick="deleteLab({{ lab_show.pk }})"/>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="visible">
+                <i class="fa fa-plus-square" aria-hidden="true"></i>
+                <span class="openTop openLeft">实验进行中</span>
+            </div>
+        </div>
+        <div class="slide-outer-exam">
+            <div class="slide-content-exam">
+                <div class="slide-inner">
+                    <span class="shiyan-name">考试科目名称</span>
+                    <ul class="buttons">
+                        <li><input class="continue" type="button" value="继续考试"/></li>
+                        <li><input class="over" type="button" value="结束考试"/></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="visible-exam slide">
+                <i class="fa fa-plus-square" aria-hidden="true"></i>
+                <span class="openTop openLeft">考试进行中</span>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(".visible").click(function () {
+            $(".slide-content").slideToggle(500);
+            if ($(".slide-content").css("display", "block")) {
+                $(".slide-content-exam").css("display", "none");
+            }
+        })
+        $(".visible-exam").click(function () {
+            $(".slide-content-exam").slideToggle(500);
+            if ($(".slide-content-exam").css("display", "block")) {
+                $(".slide-content").css("display", "none");
+            }
+        })
+    </script>
+    <script>
+        function startingexam(examination_id) {
+               $.ajaxSetup({
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+            });
+
+             loading(examination_id)
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "{% url 'examination:myexam' %}",
+                data: {"examination_id": examination_id},
+                async: true,
+                success: function (data) {
+                }
+            });
+        }
+
+        function loading(agu) {
+            $('body').loading({
+                loadingWidth: 220,
+                title: '提示',
+                name: 'test',
+                titleColor: '#fff',
+                discColor: '#EDEEE9',
+                discription: '正在加载，请稍等...',
+                direction: 'column',
+                type: 'origin',
+                originBg: '#96deec',
+                originDivWidth: 40,
+                originDivHeight: 40,
+                originWidth: 6,
+                originHeight: 6,
+                smallLoading: false,
+                loadingBg: 'rgba(33, 30, 23, 0.8)',
+                loadingMaskBg: 'rgba(66,66,66,0.2)'
+            });
+            setTimeout(endloading, 3000, agu);
+        }
+
+        function endloading(agus) {
+            var url = "{% url 'examination:ExamPage' 12345 %}";
+            url = url.replace('12345', agus);
+            removeLoading('test');
+            location.href = url;
+        }
+
+        function deleteLab(lab_pk) {
+            {#alert(lab_pk);#}
+            $.ajaxSetup({
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+            });
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "{% url 'instance:deletelab' %}",
+                data: {"lab_pk": lab_pk},
+                async: true,
+                success: function (data) {
+                    if (data.status === 'success') {
+                        window.location.reload();
+                        alert("结束实验成功");
+                    } else if (data.status === 'BUILD') {
+                        {#alert("轮训中")#}
+                    }
+                }
+            });
+        }
+
+        function continueLab(lab_id, instance_id) {
+            {#alert(lab_pk);#}
+            {#alert(instance_id);#}
+            var url = "{% url 'experiment:experilab' 12345 12346%}";
+            url = url.replace('12345', lab_id);
+            url = url.replace('12346', instance_id);
+            location.href = url;
+        }
+    </script>
+{% comment %}     <script type="text/javascript">
+        $(function($){
+
+            // 占位符项目来填充列表的功能
+            function populate(container, count, offset){
+                var output = '';
+                offset = isNaN(offset) ? 0 : offset;
+                for(var i = 0; i<count; i++ ){
+                    output += '<li>'+(offset+i)+'</li>';
+                }
+                return $(output).appendTo(container);
+            }
+
+            // 填充列表项
+            $('ul[data-items]').each(function(i,e){
+                var items = parseInt($(e).data('items'), 10);
+                populate(e, items);
+            });
+
+            // 主要调用部分
+            $(document).on('activated',function(event){
+                var $section = $(".scrollbox");
+                var $frame = $section.find('.frame'),
+                    $ul = $frame.find('ul').eq(0),
+                    $scrollbar = $section.find('.scrollbar'),
+                    $buttons = $section.find('.controlbar [data-action]');
+
+                populate($ul, 10);
+
+                // 控制
+                $buttons.on('click',function(e){
+                    var action = $(this).data('action');
+                    switch(action){
+                        case 'reset':
+                        $frame.sly('toStart');
+                        setTimeout(function(){
+                            $ul.find('li').slice(10).remove();
+                            $frame.sly('reload');
+                        }, 200);
+                        break;
+                        default:
+                        $frame.sly(action);
+                    }
+                });
+
+                $section.find(".slyWrap").each(function(i,e){
+                    var cont = $(this),
+                        frame = cont.find(".sly"),
+                        slidee = frame.find("ul"),
+                        scrollbar = cont.find(".scrollbar"),
+                        pagesbar = cont.find(".pages"),
+                        options = frame.data("options"),
+                        controls = cont.find(".controls"),
+
+                    options = $.extend({},options,{
+                        scrollBar: scrollbar,
+                        pagesBar: pagesbar,
+                        disabledClass: 'btn-disabled'
+                    });
+
+                    frame.sly( options );
+                    cont.find("button").click(function(){
+                        var action = $(this).data('action'),
+                        arg = $(this).data('arg');
+                        switch(action){
+                            case 'add':
+                            slidee.append(slidee.children().slice(-1).clone().removeClass().text(function(i,text){
+                                return text/1 + 1;
+                            }));
+                            frame.sly('reload');
+                            break;
+                            case 'remove':
+                            slidee.find("li").slice(-1).remove();
+                            frame.sly('reload');
+                            break;
+                            default:
+                            frame.sly(action, arg);
+                        }
+                    });
+                });
+            }).trigger('activated');
+        });
+    </script>{% endcomment %}
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,142 @@
+
+.location{
+    width: 1470px;
+    height: 30px;
+    color: #f9f6f6;
+    background-color: #2b2d2f;
+}
+.location .path{
+    width: 1470px;
+    text-align: left;
+    float: left;
+    line-height: 1.5;
+    font-size: 18px;
+}
+.location1{
+    width: 1903px;
+    height: 30px;
+    color: #f9f6f6;
+    background-color: #2b2d2f;
+}
+.location1 .path{
+    width: 1200px;
+    text-align: left;
+    float: left;
+    line-height: 1.5;
+    font-size: 18px;
+}
+.fa-home{
+    font-size: 18px;
+    line-height: 13px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.path_h4{
+    display: inline-block;
+    font-size: 14px;
+    padding-top: 6px;
+}
+.path > a{
+    color: #d6d1d1;
+    font-size: 13px;
+}
+.path > a:hover{
+    text-decoration: none;
+    color: #ff7774;
+}
+.path > a:visited{
+    text-decoration: none;
+}
+.road{
+    font-size: 15px;
+}
+
+.alert{
+    width: 300px;
+    height: 130px;
+    border-radius: 0;
+    background-color: #d4dadb;
+    position: absolute;
+    top: 35%;
+    left: 40%;
+    padding: 0;
+    border: 1px solid #262626;
+    display: none;
+    z-index: 10;
+}
+.tip{
+    width: 298px;
+    height: 80px;
+    border-bottom: 1px solid #d0d0d0;
+}
+.please{
+    text-align: left;
+    line-height: 5;
+    font-size: 16px;
+    padding-left: 20px;
+}
+.time{
+    position: absolute;
+    top: 25px;
+    right: -3px;
+    font-size: 14px;
+}
+.button{
+    width: 298px;
+    height: 48px;
+    background-color: #cad3d5;
+    padding-left: 0;
+}
+.bot{
+    width: 70px;
+    height: 25px;
+    background-color: #e6e6e6;
+    border: 1px solid #85959e;
+    margin-top: 10px;
+}
+.leave{
+    float: left;
+    margin-left: 115px;
+}
+.stay{
+    float: right;
+    margin-right: 20px;
+}
+.backdrop{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 9;
+    background-color: #0f0e0e;
+    opacity: .75;
+    display: none;
+}
+.route{
+    color: #b9b9b9;
+    cursor: auto;
+    font-size: 14px;
+}
+/*滚动条设置*/
+/* 设置滚动条区域*/
+/*::-webkit-scrollbar {*/
+    /*width: 4px;*/
+/*}*/
+/*!* Track *!*/
+/*::-webkit-scrollbar-track {*/
+    /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);*/
+    /*-webkit-border-radius: 10px;*/
+    /*border-radius: 10px;*/
+/*}*/
+/*!* Handle *!*/
+/*::-webkit-scrollbar-thumb {*/
+    /*-webkit-border-radius: 10px;*/
+    /*border-radius: 10px;*/
+    /*background: rgba(96, 95, 99, 0.8);*/
+    /*!*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);*!*/
+/*}*/
+/*::-webkit-scrollbar-thumb:window-inactive {*/
+    /*!*background: rgba(89, 79, 89, 0.4);*!*/
+    /*background-color: #3f4244;*/
+/*}*/

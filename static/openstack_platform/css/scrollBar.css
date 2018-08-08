@@ -1,0 +1,35 @@
+
+::-moz-selection{background:#333;color:#fff;text-shadow:-1px -1px 0 #000 !important;}
+::selection{background:#333;color:#fff;text-shadow:-1px -1px 0 #000 !important;}
+
+.scrollbar{
+	background: #585c5f;
+    border-radius: 2px;
+    border: 2px solid #7f858a;
+    border-top-color: #989898;
+    line-height: 0;
+	display: none;
+}
+.scrollbar .handle{border-radius:4px;background:#ababab;cursor:pointer;line-height:0;
+	-webkit-box-shadow:0 1px 0 #555;
+	-moz-box-shadow:0 1px 0 #555;
+	-o-box-shadow:0 1px 0 #555;
+	box-shadow:0 1px 0 #555;
+}
+/* Vertical examples */
+#vertical .slyWrap{width:1000px;height:670px;float:left;}
+#vertical .scrollbar{width:7px;}
+#vertical .scrollbar .handle{height:100px;width:100%;}
+#vertical .example2{position:relative;}
+#vertical .example2 .sly{
+	width:1000px;
+	height:670px;
+	position: relative;
+	overflow: hidden
+}
+
+#vertical .example2 .scrollbar{position:absolute;top:0;right:0;height:670px;}
+/* Contain floats:h5bp.com/q */
+.clearfix:before, .clearfix:after{content:"";display:table;}
+.clearfix:after{clear:both;}
+.clearfix{*zoom:1;}

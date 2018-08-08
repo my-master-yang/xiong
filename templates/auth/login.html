@@ -1,0 +1,41 @@
+{% load staticfiles %}
+{% load myfilters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="shortcut icon" href="http://i1.social.s-msft.com/Forums/GlobalResources/images/Msdn/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/signin.css' %}">
+</head>
+<body class="log" style="background: url({% static 'openstack_platform/image/tielu1.png' %}) center top no-repeat;width: 100%;height: 100%">
+<div class="login" style="display: block">
+    <div class="log_ur">
+        <div class="log_b">
+            <div class="img">
+            </div>
+        </div>
+        <div class="log_text">
+            <form class="form" action="{% url 'login' %}" method="post">
+                {% csrf_token %}
+                <p class="field">
+                    {{ form.username.errors }}
+                    {{ form.username | addclass:'log_name,用户名' }}
+                </p>
+                <p class="field">
+                    {{ form.password.errors }}
+                    {{ form.password | addclass:'log_pwd,密码' }}
+                </p>
+                <button type="submit" class="log_btn">登录</button>
+                <input type="hidden" name="next" value="{{ next }}"/>
+{#                <input type="button" class="reg_btn" value="注册">#}
+
+            </form>
+        </div>
+
+    </div>
+    <p class="banquan">安捷光通科技成都有限公司&nbsp;&nbsp;Copyright © 2018 Agile Photonics Technologies Co.,Ltd. All Rights
+        Reserved </p>
+</div>
+</body>
+</html>

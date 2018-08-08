@@ -1,0 +1,332 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}课程管理{% endblock %}
+{% block custom_css %}
+    <script src="{% static 'openstack_platform/js/jquery-1.4.2.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/a-manage.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/loading.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/slide.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/scrollBar.css' %}">
+        <link rel="stylesheet" href="{% static 'openstack_platform/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/font-awesome-4.7.0/css/font-awesome.css' %}">
+{% endblock %}
+{% block custom_js %}
+    <script src="{% static 'openstack_platform/js/loading.js' %}"></script>
+    <script src="{% static 'openstack_platform/js/slide.js' %}"></script>
+{% endblock %}
+{% block section %}
+    <section class="section">
+        <div class="center1">
+            <div class="type">
+                <div class="type_sort">
+                    <span class="type_condition">分类:</span>
+                    <ul class="type_sort_cont">
+                        <li class="sort_cont {% ifequal coursecategory_id ''|stringformat:"i" %}type_active{% endifequal %}">
+                            <a href="{% url 'course:list' %}">全部</a>
+                        </li>
+                       {% for coursecate in coursecategory_all %}
+                            <li class="sort_cont {% ifequal coursecategory_id coursecate.id|stringformat:"i" %}type_active{% endifequal %}">
+                                <a href="?ccid={{ coursecate.id }}">{{ coursecate.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="type_direction">
+                    <span class="type_condition">方向:</span>
+                    <ul class="type_direction_cont">
+                        <li class="sort_cont {% ifequal course_id ''|stringformat:"i" %}type_active{% endifequal %}">
+                            <a href="?ccid={{ coursecategory_id }}">全部</a>
+                        </li>
+                        {% for course in all_course %}
+                            <li class="style_li {% ifequal course_id course.id|stringformat:"i" %}type_active{% endifequal %}">
+                                <a href="?cid={{ course.id }}"> {{ course.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="type_degree">
+                    <span class="type_condition">难度:</span>
+                    <ul class="type_degree_cont">
+                        <li class="degree_cont {% ifequal lesson_level 'all' %}type_active{% endifequal %}"><a href="?ccid={{ coursecategory_id }}&cid={{ course_id }}&lessonlevel=all">全部</a></li>
+                        <li class="degree_cont {% ifequal lesson_level 'cj' %}type_active{% endifequal %}"><a href="?ccid={{ coursecategory_id }}&cid={{ course_id }}&lessonlevel=cj">初级</a></li>
+                        <li class="degree_cont {% ifequal lesson_level 'zj' %}type_active{% endifequal %}"><a href="?ccid={{ coursecategory_id }}&cid={{ course_id }}&lessonlevel=zj">中级</a></li>
+                        <li class="degree_cont {% ifequal lesson_level 'gj' %}type_active{% endifequal %}"><a href="?ccid={{ coursecategory_id }}&cid={{ course_id }}&lessonlevel=gj">高级</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="center2">
+            <div class="menu_content">
+                <div class="box_right_content" style="min-height: 440px">
+                    <div id="vertical" class="scrollbox clearfix">
+                        <div class="sly" data-options='{ "scrollBy": 100 }'>
+                            {% for lesson in all_lesson %}
+                                <div class="singleCourse">
+                                    <div class="course">
+                                        <li class="image" type="button"  onClick="startingcourse({{ lesson.pk }});">
+                                            <img class="scrollLoading" src="/media/{{ lesson.image }}"/>
+                                        </li>
+                                        <ul class="introduce">
+                                            <li class="course_name"><strong>{{ lesson.name }}</strong></li>
+                                            <li class="introduce_li">
+                                                <div class="coll-num">
+                                                    <div class="num">
+                                                        <i class="fa fa-users" aria-hidden="true"></i>
+                                                        <span class="number">{{ lesson.students }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="difficult">
+                                                    <i  class="fa fa-signal" aria-hidden="true"></i>
+                                                    <span>难度:</span>
+                                                    <span style="color: #da8f00">{{ lesson.get_degree_display }}</span>
+                                                    {% if lesson.collected == 1 %}
+                                                        已收藏
+                                                    {% else %}
+                                                        未收藏
+                                                    {% endif %}
+                                                    <a class="collect" href="javascript:void(0)" onclick="shoucang({{ lesson.pk }})">
+                                                         <span class="coll-ing"><i class="fa fa-star fa-lg star"></i>收藏</span>
+                                                        <span class="coll-ed"><i class="fa fa-star fa-lg star"></i>已收藏</span>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                 </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                {% comment %}<div class="menu_content">
+                    <div class="box_right_content">
+                        <div id="vertical" class="scrollbox clearfix">
+                            <div class="slyWrap example2">
+                                <div class="sly" data-options='{ "scrollBy": 100 }'>
+                                    <div style="width: 1000px">
+                                 {% for lesson in all_lesson %}
+                                    <div class="course">
+                                        <div class="image btn btn-primary read" type="button" onClick="startingcourse({{ lesson.pk }});">
+                                            <img width="220" height="140" class="scrollLoading"
+                                                 src="/media/{{ lesson.image }}"/>
+                                        </div>
+                                        <ul class="introduce">
+                                            <li class="first"><strong>{{ lesson.name }}</strong></li>
+                                            <li class="introduce_li">
+                                                <i  class="fa fa-signal" aria-hidden="true"></i>
+                                                <span>难度:</span>
+                                                <span>{{ lesson.get_degree_display }}</span>
+                                                <span>&nbsp;&nbsp;学习人数：</span>
+                                                <span>{{ lesson.students }}&nbsp;&nbsp;</span>
+                                                <a href="#"><i class="fa fa-star fa-lg star"></i></a>
+                                                <a href="javascript:void(0)" onclick="shoucang({{ lesson.pk }})">收藏</a>
+                                            </li>
+                                            <li class="second">
+                                                <i class="fa fa-book fa-lg"></i>
+                                                <span>课程简介：</span>
+                                                <span>{{ lesson.desc }}</span>
+                                            </li>
+{#                                            <li class="btn btn-primary read" type="button" onClick="startingcourse({{ lesson.pk }});">#}
+{#                                                开始学习#}
+{#                                            </li>#}
+                                        </ul>
+                                    </div>
+                                 {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>{% endcomment %}
+    </section>
+    <div class="slide-all">
+        {% if instancelive.count > 0 %}
+            <div class="slide-outer">
+                {% for lab_show in instancelive %}
+                    <div class="slide-content">
+                        <div class="slide-inner">
+                            <span class="shiyan-name">{{ lab_show.labName }}</span>
+                            <ul class="buttons">
+                                <li><input class="continue" type="button" value="继续实验"
+                                           onClick="continueLab('{{ lab_show.labID }}','{{ lab_show.instanceID }}')"/></li>
+                                <li><input class="over" type="button" value="结束实验" onclick="deleteLab({{ lab_show.pk }})"/>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="visible">
+                    <i class="fa fa-plus-square" aria-hidden="true"></i>
+                    <span class="openTop openLeft">实验进行中</span>
+                </div>
+            </div>
+        {% endif %}
+{#        <div class="slide-outer-exam">#}
+{#            <div class="slide-content-exam">#}
+{#                <div class="slide-inner">#}
+{#                    <span class="shiyan-name">考试科目名称</span>#}
+{#                    <ul class="buttons">#}
+{#                        <li><input class="continue" type="button" value="继续考试"/></li>#}
+{#                        <li><input class="over" type="button" value="结束考试"/></li>#}
+{#                    </ul>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="visible-exam slide">#}
+{#                <i class="fa fa-plus-square" aria-hidden="true"></i>#}
+{#                <span class="openTop openLeft">考试进行中</span>#}
+{#            </div>#}
+{#        </div>#}
+    </div>
+    <script>
+        $(".visible").click(function () {
+            $(".slide-content").slideToggle(500);
+            if ($(".slide-content").css("display", "block")) {
+                $(".slide-content-exam").css("display", "none");
+            }
+        })
+        $(".visible-exam").click(function () {
+            $(".slide-content-exam").slideToggle(500);
+            if ($(".slide-content-exam").css("display", "block")) {
+                $(".slide-content").css("display", "none");
+            }
+        })
+    </script>
+    <script>
+
+        　//收藏功能
+         function shoucang(agu) {
+            // ajax　csrftoken认证
+             $.ajaxSetup({
+             data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+       　　　 });
+             var lessonpk = agu;
+             var lessonpkjson = JSON.stringify(lessonpk);
+             {#alert(lessonpkjson)#}
+             $.ajax({
+                 type: "POST",
+                 url: '{% url "course:collection" %}',
+                 data: {'lessonpkjson': lessonpkjson},
+                 dataType: "json",
+                 success: function (status) {
+                     if (status.status == 1) {
+                         {#alert("该课程已收藏,请勿重复收藏");#}
+                         alert("该课程已取消收藏");
+                     }
+                     else {
+                         alert("课程收藏成功");
+                     }
+                 }
+             })
+         }
+
+
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function csrfSafeMethod(method) {
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+
+        function startingcourse(course_id) {
+             $.ajaxSetup({
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+            });
+
+             endloading(course_id)
+            {#$.ajax({#}
+            {#    cache: false,#}
+            {#    type: "POST",#}
+            {#    url: "{% url 'course:netsec' %}",#}
+            {#    data: {"course_id": course_id},#}
+            {#    async: true,#}
+            {#    success: function (data) {#}
+                {#    if (data.status === 'success') {#}
+                {#        alert("创建成功");#}
+                {#        loading(course_id);#}
+                {#    }#}
+            {#    }#}
+
+        }
+
+
+        function loading(agu) {
+            $('body').loading({
+                loadingWidth: 220,
+                title: '提示',
+                name: 'test',
+                titleColor: '#fff',
+                discColor: '#EDEEE9',
+                discription: '正在加载，请稍等...',
+                direction: 'column',
+                type: 'origin',
+                originBg: '#96deec',
+                originDivWidth: 40,
+                originDivHeight: 40,
+                originWidth: 6,
+                originHeight: 6,
+                smallLoading: false,
+                loadingBg: 'rgba(33, 30, 23, 0.8)',
+                loadingMaskBg: 'rgba(66,66,66,0.2)'
+            });
+            setTimeout(endloading, 2000, agu);
+        }
+
+        function endloading(agus) {
+            var url = "{% url 'course:lesson' 12345 %}";
+            url = url.replace('12345', agus);
+            removeLoading('test');
+            location.href = url;
+        }
+
+        function deleteLab(lab_pk) {
+            {#alert(lab_pk);#}
+            $.ajaxSetup({
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+            });
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "{% url 'instance:deletelab' %}",
+                data: {"lab_pk": lab_pk},
+                async: true,
+                success: function (data) {
+                    if (data.status === 'success') {
+                        window.location.reload();
+                        alert("结束实验成功");
+                    } else if (data.status === 'BUILD') {
+                        {#alert("轮训中")#}
+                    }
+                }
+            });
+        }
+
+        function continueLab(lab_id, instance_id) {
+            {#alert(lab_pk);#}
+            {#alert(instance_id);#}
+            var url = "{% url 'experiment:experilab' 12345 12346%}";
+            url = url.replace('12345', lab_id);
+            url = url.replace('12346', instance_id);
+            location.href = url;
+        }
+
+    </script>
+
+{% endblock %}
+</body>
+</html>

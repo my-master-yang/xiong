@@ -1,0 +1,294 @@
+{#{% extends 'base.html' %}#}
+{% load staticfiles %}
+<title>实验管理-我的实验台</title>
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/a-experiment.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/location.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/alert.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/jquery-easyui-1.5.3/themes/color.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/font-awesome-4.7.0/css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/jquery-easyui-1.5.3/themes/default/easyui.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/jquery-easyui-1.5.3/themes/icon.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/jquery-easyui-1.5.3/demo/demo.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/bootstrap-3.3.7-dist/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/location.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/markdown.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/a-manage.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/base.css' %}">
+
+    <script src="{% static 'openstack_platform/jquery-easyui-1.5.3/jquery.min.js' %}"></script>
+    <script src="{% static 'openstack_platform/jquery-easyui-1.5.3/jquery.easyui.min.js' %}"></script>
+    <script src="{% static 'openstack_platform/bootstrap-3.3.7-dist/js/bootstrap.js' %}"></script>
+    <script src="{% static 'openstack_platform/js/script.js' %}"></script>
+    <script src="{% static 'openstack_platform/js/alert.js' %}"></script>
+    <script src="{% static 'openstack_platform/jquery-easyui-1.5.3/jquery-1.9.0.min.js' %}"></script>
+
+<body>
+<div class="hd-main clearfix" id="header">
+	<a class="logo" href="{% url 'index' %}">
+		<img class="nav_image" alt="西南交通大学铁路安全培训平台" src="{% static 'openstack_platform/image/log.png' %}">
+		<img class="nav_zi" src="{% static 'openstack_platform/image/zi.png' %}"/>
+	</a>
+    <div class="nav-menu">
+		<span></span>
+		<span></span>
+		<span></span>
+	</div>
+    <div class="nav-list">
+        <div class="navs">
+            <a class="navs-child mycourse">课程管理</a>
+            <a class="navs-child mylab" style="color: #8dbff7">实验管理</a>
+            <a class="navs-child usercenter">个人中心</a>
+            <a class="navs-child myexam">考试中心</a>
+        </div>
+        <div class="info">
+            <ul class="per-info" style="float: left;padding: 0 13px;line-height: 1.3;margin: 0">
+                <li class="dropdown" style="float: left;padding-left: 5px;">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <img class="btn nav_touxiang" role="button" src="{% static 'openstack_platform/image/hibo1.jpg' %}">
+                    </a>
+                </li>
+                <li class="name">{{ user.username }}</li>
+            </ul>
+            <a class="out-o" href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;安全退出</a>
+            <a class="out-t" href="{% url 'logout' %}">&nbsp;安全退出</a>
+        </div>
+    </div>
+</div>
+<section class="section" style="height: 95%">
+    <div class="center_ex_lab">
+            <div class="course_content">
+                <div class="course_cont">
+                    {{ lab.detail| safe }}
+                </div>
+            </div>
+            <div class="vmware">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <iframe id="console_embed" src="{{ vnclinking }}" style="width:100%;height:100%"></iframe>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <div class="bar_all">
+                        <div class="bar_cont">
+                            <div class="bar_time" id="timer"></div>
+                             <div id="warring" style="color:red"></div>
+                            <div class="bar_btn">
+                                <input type="button"class="butt btn-danger" onclick="endexperiment()" value="结束实验"/>
+                                <input type="button"class="butt btn-success extend" onclick="delayexperiment()" value="延长实验"/>
+                            </div>
+                        <div class="hide_bar">隐藏工具栏</div>
+                        </div>
+                    </div>
+                    <div class="show_bar">显示工具栏</div>
+                </div>
+            </div>
+                <div class="left_bar">
+                    <span class="guide_book">显示实验指导书</span>
+                    <span class="virtual_machine">显示虚拟机</span>
+                </div>
+    <div class="over_shiyan">
+        <div class="over_front">
+            <div class="over_top">
+                结束实验
+                <span class="cut">×</span>
+            </div>
+            <div class="over_cont">
+                <div class="shiyan_cont">结束实验后，该环境和代码将被删除。</div>
+                <div class="shiyan_cont_end">实验时间到，实验环境已被删除，点击确认回到实验列表。</div>
+            </div>
+            {% for lab_show in instancelive %}
+            <div class="over_button">
+                <div class="cancel">取消</div>
+                <div class="sure"><a onclick="deleteLab({{ lab_show.pk }});">确定</a></div>
+            </div>
+            <div class="over_button_end">
+                <div class="sure_end"><a onclick="deleteLab({{ lab_show.pk }});">确定</a></div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="over_back"></div>
+        <div class="over_back_end"></div>
+    </div>
+    <div class="delay_shiyan">
+        <div class="delay_front">
+            <div class="delay_top">
+                延长实验
+                <span class="cut">×</span>
+            </div>
+            <div class="delay_cont">
+                <div class="delay_content"></div>
+            </div>
+            <div class="delay_button">
+                <div class="delay_sure">确定</div>
+            </div>
+        </div>
+        <div class="delay_back"></div>
+    </div>
+    </div>
+    <script>
+        function transurl(url) {
+            var M = {};
+            if (M.dialog1) {
+                M.dialog1.show();
+            }
+            M.dialog1 = jqueryAlert({
+                'style': 'pc',
+                'title': '提示！',
+                'content': '请确认是否离开此页...',
+                'width': '250px', //宽度
+                'height': '140px', //高度
+                'modal': true,
+                'contentTextAlign': 'left',
+                'animateType': 'scale',
+                'bodyScroll': 'true',
+                'buttons': {
+                    '离开此页': function () {
+                        location.href = url;
+                    },
+                    '留在此页': function () {
+                        M.dialog1.close();
+                    }
+                }
+            });
+        };
+
+     $(document).delegate(".mycourse",'click',function(){
+        var url = "{% url 'course:list'%}";
+        transurl(url);
+     })
+     $(document).delegate(".myexam",'click',function(){
+        var url = "{% url 'examination:myexam'%}";
+        transurl(url);
+     })
+     $(document).delegate(".mylab",'click',function(){
+        var url = "{% url 'experiment:myexperi'%}";
+        transurl(url);
+     })
+     $(document).delegate(".back-page",'click',function(){
+        var url = "{% url 'experiment:myexperi'%}";
+        transurl(url);
+     })
+     $(document).delegate(".logout", 'click', function () {
+         var url = "{% url 'logout'%}";
+         transurl(url);
+     })
+     $(document).delegate(".usercenter", 'click', function () {
+         var url = "{% url 'users:usercenter'%}";
+         transurl(url);
+     })
+
+    </script>
+<script type="text/javascript">
+     var maxtime = {{ last_time }}; //一个小时，按秒计算!
+     function CountDown() {
+         if (maxtime >= 0) {
+                 minutes = Math.floor(maxtime / 60);
+                  seconds = Math.floor(maxtime % 60);
+                  msg = minutes + ":" + seconds ;
+                  document.all["timer"].innerText = msg;
+                  if (maxtime == 10* 60)alert1("注意：距离实验结束还剩10分钟，如需延长时间请点击“延长实验”。");
+                      --maxtime;
+              }
+         else {
+             clearInterval(timer);
+             endexperiment1();
+          }
+         }
+     timer = setInterval("CountDown()", 1000);
+</script>
+<script>
+    function delayexperiment() {
+        if(maxtime>10*60)
+        {
+
+            {#$(".delay_sure").empty();#}
+            $(".delay_content").empty();
+            $(".delay_content").append('实验剩余'+msg+'分钟， 剩余时间小于10分钟才可以延时。');
+            $('.delay_shiyan').addClass('is-visible');
+            {#$('.delay_shiyan').show();#}
+        }
+        else{
+            delay();
+        }
+    }
+    function endexperiment(){
+         {#$('.cut').hide();#}
+         {#$('.shiyan_cont').css('display','none');#}
+         {#$('.shiyan_cont_end').css('display','block');#}
+         $('.shiyan_cont').css('display','block');
+         $('.shiyan_cont_end').css('display','none');
+         $('.over_back').css('display','none');
+         $('.over_back_end').css('display','block');
+         $('.over_button').css('display','block');
+         $('.over_button_end').css('display','none');
+         $('.over_shiyan').addClass('is-visible');
+    }
+
+    function endexperiment1(){
+         $('.cut').hide();
+         $('.shiyan_cont').css('display','none');
+         $('.shiyan_cont_end').css('display','block');
+         $('.over_back').css('display','none');
+         $('.over_back_end').css('display','block');
+         $('.over_button').css('display','none');
+         $('.over_button_end').css('display','block');
+         $('.over_shiyan').addClass('is-visible');
+    }
+
+    function alert1(e){
+        $("body").append('<div id="msg"><div class="msg_back"></div><div class="msg_front"><div id="msg_top">提示!<span class="msg_close">×</span></div>' +
+            '<div id="msg_cont">'+e+'</div><div class="bott"><div class="msg_delay" id="msg_extend" onclick="delay()">延时1小时</div><div class="msg_close" id="msg_clear">取消</div></div></div></div>');
+        $('#msg').addClass('is-visible');
+        $('#msg').on('click', function(event){
+            if( $(event.target).is('.msg_back') || $(event.target).is('.msg_close') || $(event.target).is('.msg_delay') || $(event.target).is('.msg_close')  ) {
+                event.preventDefault();
+                $(this).removeClass('is-visible');
+            }
+        });
+    }
+    var p = document.querySelector('.delay_close');
+    function delay() {
+        maxtime += 60 * 60;
+        p.innerText = CountDown();
+    }
+
+
+	 function deleteLab(lab_pk) {
+            $.ajaxSetup({
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+            });
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "{% url 'instance:deletelab' %}",
+                data: {"lab_pk": lab_pk},
+                async: true,
+                success: function (data) {
+                    if (data.status === 'success') {
+                        {#window.location.reload();#}
+                        {#alert("结束实验成功");#}
+                        window.location.href ="{% url 'experiment:myexperi' %}";
+
+                    } else if (data.status === 'BUILD') {
+                        {#alert("轮训中")#}
+                    }
+                }
+            });
+        }
+</script>
+<script>
+{% comment %}	$(document).click(function(){
+		$('.nav-list').removeClass('open')
+	})
+	$('.nav-menu,.nav-list').click(function(e){e.stopPropagation()})
+	$('.hd-main').find('.nav-menu').click(function(e){
+		$('.nav-list').toggleClass('open')
+	}){% endcomment %}
+    $('.nav-menu').click(function(){
+		$('.nav-list').toggleClass('open')
+	})
+</script>
+</section>
+</body>
+</html>

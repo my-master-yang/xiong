@@ -1,0 +1,412 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <title>个人中心</title>
+    <meta name="viewport" content="width=100%; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/loading.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/location.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/search_result.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/font-awesome-4.7.0/css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/bootstrap-3.3.7-dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/slide.css' %}">
+    <script src="{% static 'openstack_platform/js/jquery-1.10.1.min.js' %}"></script>
+    <script src="{% static 'openstack_platform/bootstrap-3.3.7-dist/js/bootstrap.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/PersonalCenter.css' %}">
+    <script src="{% static 'openstack_platform/js/loading.js' %}"></script>
+    <script src="{% static 'openstack_platform/js/slide.js' %}"></script>
+</head>
+<body>
+{% block nav %}
+    <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <img class="nav_image" alt="西南交通大学铁路安全培训平台" src="{% static 'openstack_platform/image/log.png' %}">
+                <img class="nav_zi" src="{% static 'openstack_platform/image/zi.png' %}"/>
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle nav_dropdown_a" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">课程管理<span class="caret"></span></a>
+                {% block menu %}
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'course:list' %}?ccid=1">信息安全技术</a></li>
+                        <li><a href="{% url 'course:list' %}?ccid=2">信息安全保障</a></li>
+                        <li><a href="{% url 'course:list' %}?ccid=3">铁路通信网基础</a></li>
+                        <li><a href="{% url 'course:list' %}?ccid=4">铁路信号基础</a></li>
+                    </ul>
+                {% endblock %}
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle nav_dropdown_a" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">实验管理<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'experiment:myexperi' %}">我的实验台</a></li>
+                        <li><a href="#">联合实验</a></li>
+                        <li><a href="#">工具下载</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle nav_dropdown_a" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">考试中心<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'examination:myexam' %}">我的考试</a></li>
+                        <li><a href="{% url 'users:usercenter' %}">历史考试</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle nav_dropdown_a" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">实训平台<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">网络实战平台</a></li>
+                        <li><a href="../a-manage/study_process.html">学习任务</a></li>
+                        <li><a href="../a-manage/studyTrace.html">学习记录</a></li>
+                        <li><a href="#">拓扑图资源管理</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">
+                        <img class="nav_touxiang" role="button" src="{% static 'openstack_platform/image/hibo1.jpg' %}">
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu per_infor">
+                        <li><img class="nav_touxiang head_img" role="button"
+                                 src="{% static 'openstack_platform/image/hibo1.jpg' %}"></li>
+                        <li class="name">{{ user.username }}</li>
+                        <li role="separator" class="divider"></li>
+                        <li class="study_course"><a href="{% url 'users:usercenter' %}?ccid=1"><i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;我的课程</a>
+                        </li>
+                        <li class="study_exper"><a href="{% url 'users:usercenter' %}"><i class="fa fa-th-list" aria-hidden="true"></i>&nbsp;我的实验</a></li>
+                        <li class="person"><a href="{% url 'users:usercenter' %}"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;个人中心</a></li>
+                        <li class="nav_exit"><a href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;安全退出</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="col-md-3 ss" style="width: 360px">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" style="border-radius: 0">类别 <span
+                                class="caret"></span></button>
+                        <ul class="dropdown-menu" style="margin: 0;border-radius: 0 0 3px 3px;padding: 10px;line-height: 1;">
+                              <li>课程管理</li>
+                            　<li>实验管理</li>
+                           　 <li>工具下载</li>
+                            　<li>考试管理</li>
+                        </ul>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Search" aria-label="...">
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default" style="border-radius: 0">
+                            <i class="fa fa-search fa-lg"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+<section>
+<div class="center2" >
+    <div class="location">
+        <div class="path">
+            <i class="fa fa-home fa-1x" aria-hidden="true"></i>
+            <span class="path_h4">您的位置：</span>
+            <span class="path_h4 route">搜索结果</span>
+        </div>
+    </div>
+    <div class="theme">
+        <div class="experiment_lab">
+            <span class="style_main">搜索结果</span>
+        </div>
+        <div class="line1"></div>
+    </div>
+    <header>
+        <ul id="myTab" class="nav nav-tabs">
+            <li class="active"><a href="#search_course" data-toggle="tab"><i class="fa fa-star fa-lg star"></i>&nbsp;&nbsp;&nbsp;课程<i class="fa fa-bars style_fa" ></i></a></li>
+            <li><a href="#search_experiment" data-toggle="tab"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;实验<i class="fa fa-bars style_fa" ></i></a></li>
+            <li><a href="#search_exam" data-toggle="tab"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;实验<i class="fa fa-bars style_fa" ></i></a></li>
+        </ul>
+    </header>
+    <div class="container">
+        <div id="myTabContent" class="tab-content">
+            <input class="button" type="button" value="返回首页" onclick="javascript:window.location.href='{% url 'index' %}'" />
+            <div class="tab-pane fade in active" id="search_course">
+                <div class="top"><span>课程</span></div>
+                <div class="bottom">
+                        <div style="display:block;overflow-y: auto;height: 625px">
+                            <ul class="list">
+                                {% for lesson in lessoncollection %}
+                                <li>
+                                    <a href="#"><img src="{% static 'openstack_platform/image/shu1.jpg' %}"></a>
+                                    <span  class="span">{{ lesson.name }}</span>
+                                    <i class="hard2">
+                                        <span>难度: </span>
+                                        <span style="color: #fb9797">{{ lesson.level }}</span>
+                                    </i>
+                                    <a class="btn continue" type="button" onClick="loading({{ lesson.coursepk }});">继续学习</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="search_experiment">
+                <div class="top"><span>实验</span></div>
+                <div class="bottom">
+                    <div style="overflow-y: auto;height: 625px">
+                        <ul class="list">
+                            {% for lab in labcollection %}
+                                <li>
+                                    <a href="#"><img src="{% static 'openstack_platform/image/shiyan1.jpg' %}"></a>
+                                    <span class="span">{{ lab.name }}</span>
+                                    <i class="hard2">
+                                        <span>难度:</span>
+                                        <span style="color: #fb9797">{{ lab.level }}</span>
+                                    </i>
+                                    {% ifequal buttonlive "show" %}
+                                        <a class="btn continue" type="button" onClick="createinstance({{ lab.labpk }});">继续实验</a>
+                                    {% else %}
+                                        <a class="btn continue" type="button" style="background-color: #6a6a6a;border-color: #6a6a6a;opacity:.5;cursor: no-drop">继续实验</a>
+                                    {% endifequal %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade in active" id="search_exam">
+                <div class="top"><span>课程</span></div>
+                <div class="bottom">
+                        <div style="display:block;overflow-y: auto;height: 625px">
+                            <ul class="list">
+                                {% for lesson in lessoncollection %}
+                                <li>
+                                    <a href="#"><img src="{% static 'openstack_platform/image/shu1.jpg' %}"></a>
+                                    <span  class="span">{{ lesson.name }}</span>
+                                    <i class="hard2">
+                                        <span>难度: </span>
+                                        <span style="color: #fb9797">{{ lesson.level }}</span>
+                                    </i>
+                                    <a class="btn continue" type="button" onClick="loading({{ lesson.coursepk }});">继续学习</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+<div class="slide-all">
+    <div class="slide-outer">
+            {% for lab_show in instancelive %}
+                <div class="slide-content">
+                    <div class="slide-inner">
+                        <span class="shiyan-name">{{ lab_show.labName }}</span>
+                        <ul class="buttons">
+                            <li><input class="continue" type="button" value="继续实验"
+                                       onClick="continueLab('{{ lab_show.labID }}','{{ lab_show.instanceID }}')"/></li>
+                            <li><input class="over" type="button" value="结束实验" onclick="deleteLab({{ lab_show.pk }})"/>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="visible">
+                <i class="fa fa-plus-square" aria-hidden="true"></i>
+                <span class="openTop openLeft">实验进行中</span>
+            </div>
+        </div>
+    <div class="slide-outer-exam">
+            <div class="slide-content-exam">
+                <div class="slide-inner">
+                    <span class="shiyan-name">考试科目名称</span>
+                    <ul class="buttons">
+                        <li><input class="continue" type="button" value="继续考试"/></li>
+                        <li><input class="over" type="button" value="结束考试"/></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="visible-exam slide">
+                <i class="fa fa-plus-square" aria-hidden="true"></i>
+                <span class="openTop openLeft">考试进行中</span>
+            </div>
+        </div>
+</div>
+<script>
+$(".visible").click(function () {
+    $(".slide-content").slideToggle(500);
+    if ($(".slide-content").css("display", "block")) {
+        $(".slide-content-exam").css("display", "none");
+    }
+})
+$(".visible-exam").click(function () {
+    $(".slide-content-exam").slideToggle(500);
+    if ($(".slide-content-exam").css("display", "block")) {
+        $(".slide-content").css("display", "none");
+    }
+})
+</script>
+<script type="text/javascript">
+function reload() {
+    location.reload();
+}
+function loading(agu) {
+    $('body').loading({
+        loadingWidth: 220,
+        title: '提示',
+        name: 'test',
+        titleColor: '#fff',
+        discColor: '#EDEEE9',
+        discription: '正在加载，请稍等...',
+        direction: 'column',
+        type: 'origin',
+        originBg: '#96deec',
+        originDivWidth: 40,
+        originDivHeight: 40,
+        originWidth: 6,
+        originHeight: 6,
+        smallLoading: false,
+        loadingBg: 'rgba(33, 30, 23, 0.8)',
+        loadingMaskBg: 'rgba(66,66,66,0.2)'
+    });
+    setTimeout(endloading, 2000, agu);
+}
+function endloading(agus) {
+    var url = "{% url 'course:lesson' 12345 %}";
+    url = url.replace('12345',agus);
+    removeLoading('test');
+    location.href = url;
+}
+        function startloading() {
+            $('body').loading({
+                loadingWidth: 220,
+                title: '提示',
+                name: 'testloading',
+                titleColor: '#fff',
+                discColor: '#EDEEE9',
+                discription: '正在加载，请稍等...',
+                direction: 'column',
+                type: 'origin',
+                originBg: '#96deec',
+                originDivWidth: 40,
+                originDivHeight: 40,
+                originWidth: 6,
+                originHeight: 6,
+                smallLoading: false,
+                loadingBg: 'rgba(33, 30, 23, 0.8)',
+                loadingMaskBg: 'rgba(66,66,66,0.2)'
+            });
+        }
+
+        function createinstance(lab_id) {
+            $.ajaxSetup({
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+            });
+            startloading();
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "{% url 'instance:createinstance' %}",
+                data: {"lab_id": lab_id},
+                async: true,
+                success: function (data) {
+                    if (data.status === 'success') {
+                        {#alert("创建成功")#}
+                        {#startloading();#}
+                        myStartFunction(lab_id);
+                    } else if (data.status === 'fail') {
+                        removeLoading('testloading');
+                        alert("创建失败,请联系管理员");
+                    }
+                }
+            });
+        }
+
+        var myVar;
+        function myStartFunction(lab_id) {
+            myVar = setInterval(function () {
+                checknewinstance(lab_id)
+            }, 3000);
+        }
+
+        function checknewinstance(lab_id) {
+            $.ajaxSetup({
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+            });
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "{% url 'instance:checknewinstance' %}",
+                data: {"lab_id": lab_id},
+                async: true,
+                success: function (data) {
+                    if (data.status === 'success') {
+                        {#alert("轮训成功");#}
+                        clearInterval(myVar);
+                        removeLoading('testloading');
+
+                        var url = "{% url 'experiment:experilab' 12345 12346%}";
+                        url = url.replace('12345', lab_id);
+                        url = url.replace('12346', data.instance_id);
+                        location.href = url;
+                        {#window.location.reload();#}
+                    } else if (data.status === 'BUILD') {
+                        {#alert("轮训中")#}
+                    }
+                }
+            });
+        }
+        function deleteLab(lab_pk) {
+            {#alert(lab_pk);#}
+            $.ajaxSetup({
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+            });
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "{% url 'instance:deletelab' %}",
+                data: {"lab_pk": lab_pk},
+                async: true,
+                success: function (data) {
+                    if (data.status === 'success') {
+                        window.location.reload();
+                        alert("结束实验成功");
+                    } else if (data.status === 'BUILD') {
+                        {#alert("轮训中")#}
+                    }
+                }
+            });
+        }
+
+        function continueLab(lab_id, instance_id) {
+            {#alert(lab_pk);#}
+            {#alert(instance_id);#}
+            var url = "{% url 'experiment:experilab' 12345 12346%}";
+            url = url.replace('12345', lab_id);
+            url = url.replace('12346', instance_id);
+            location.href = url;
+        }
+</script>
+</body>
+</html>

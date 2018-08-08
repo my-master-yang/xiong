@@ -1,0 +1,169 @@
+{% load staticfiles %}
+ <title>课程管理</title>
+    <link rel="stylesheet" href="{% static 'openstack_platform/jquery-easyui-1.5.3/themes/color.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/font-awesome-4.7.0/css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/jquery-easyui-1.5.3/themes/default/easyui.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/jquery-easyui-1.5.3/themes/icon.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/jquery-easyui-1.5.3/demo/demo.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/bootstrap-3.3.7-dist/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/a-manage.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/zenburn.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/alert.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/markdown.css' %}">
+    <script src="{% static 'openstack_platform/js/alert.js' %}"></script>
+    <script src="{% static 'openstack_platform/jquery-easyui-1.5.3/jquery-1.9.0.min.js' %}"></script>
+    <script src="{% static 'openstack_platform/js/script.js' %}"></script>
+    <script src="{% static 'openstack_platform/jquery-easyui-1.5.3/jquery.min.js' %}"></script>
+    <script src="{% static 'openstack_platform/jquery-easyui-1.5.3/jquery.easyui.min.js' %}"></script>
+    <script src="{% static 'openstack_platform/bootstrap-3.3.7-dist/js/bootstrap.js' %}"></script>
+</head>
+<body>
+<!--<iframe MARGINWIDTH=0 MARGINHEIGHT=0 HSPACE=0 VSPACE=0 FRAMEBORDER=0 SCROLLING=no src="../head.html" height="54.7px" width="100%"></iframe>-->
+<div class="hd-main clearfix" id="header">
+	<a class="logo" href="{% url 'index' %}">
+		<img class="nav_image" alt="西南交通大学铁路安全培训平台" src="{% static 'openstack_platform/image/log.png' %}">
+		<img class="nav_zi" src="{% static 'openstack_platform/image/zi.png' %}"/>
+	</a>
+    <div class="nav-menu">
+		<span></span>
+		<span></span>
+		<span></span>
+	</div>
+    <div class="nav-list">
+        <div class="navs">
+            <a class="navs-child mycourse" style="color: #8dbff7">课程管理</a>
+            <a class="navs-child mylab">实验管理</a>
+            <a class="navs-child usercenter">个人中心</a>
+            <a class="navs-child myexam">考试中心</a>
+        </div>
+        <div class="info">
+            <ul class="per-info" style="float: left;padding: 0 11px;;line-height: 1.3;margin: 0">
+                <li class="dropdown" style="float: left;padding-left: 5px;">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <img class="btn nav_touxiang" role="button" src="{% static 'openstack_platform/image/hibo1.jpg' %}">
+                    </a>
+                </li>
+                <li class="name">{{ user.username }}</li>
+            </ul>
+            <a class="out-o" href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;安全退出</a>
+            <a style="padding-left: 13px;" class="out-t" href="{% url 'logout' %}">安全退出</a>
+        </div>
+    </div>
+</div>
+<section class="section">
+    <div class="center3" >
+        <div class="iframe" >
+            <div class="iframe_content">
+                {{ lesson.detail|safe }}
+            </div>
+        </div>
+        <div class="go-top">
+            <a href="#header">
+                <i class="fa fa-angle-up" aria-hidden="true"></i>
+                <div class="re-top" style="display: none">返回顶部</div>
+            </a>
+        </div>
+        <div class="chose-page">
+            <div class="back-page">
+                <div class="play">
+                    <span>视频播放</span>&nbsp;&nbsp;
+                    <i class="fa fa-play" aria-hidden="true"></i>
+                    <i class="fa fa-pause" aria-hidden="true"></i>
+                </div>
+                <div class="away">
+                    <span>离开课程</span>
+                    <i class="fa fa-stop-circle-o pa" aria-hidden="true" style="font-size: 20px;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bg"></div>
+    <div class="bg-videodiv">
+        <div class="close" id="fade">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </div>
+        <div class="videoTitle">
+            <span class="videoName">用户账户控制</span>
+        </div>
+        <div id="videoMenu" class="videoTitle">
+            <span class="videoprovider"><i class="fa fa-user-o" aria-hidden="true"></i>&nbsp;提供者：安捷课程专家</span>
+            <span class="videoNum"><i class="fa fa-play-circle-o" aria-hidden="true"></i>&nbsp;播放次数：14 次</span>
+            <button id="learnbtn" class="btn btn1">已学</button>
+            <button id="learnbtn" class="btn btn2" disabled="disabled">已学</button>
+        </div>
+        <div id="playerDiv">
+{#            <video controls width="770px" height="440px">#}
+{#                <source src="movie.mp4"  type="video/mp4">#}
+{#                <source src="movie.ogg"  type="video/ogg">#}
+            <iframe frameborder="0" width="770px" height="440px" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" src="{{ video_path }}"></iframe>
+{#            </video>#}
+        </div>
+    </div>
+</section>
+<script>
+{% comment %}	$(document).click(function(){
+		$('.nav-list').removeClass('open')
+	}){% endcomment %}
+{% comment %}	$('.nav-menu,.nav-list').click(function(e){e.stopPropagation()})
+	$('.hd-main').find('.nav-menu').click(function(e){
+		$('.nav-list').toggleClass('open')
+	}){% endcomment %}
+    $('.nav-menu').click(function(){
+		$('.nav-list').toggleClass('open')
+	})
+</script>
+<script type="text/javascript">
+        function transurl(url){
+        var M = {};
+        if(M.dialog1){
+            M.dialog1.show();
+        }
+        M.dialog1 = jqueryAlert({
+            'style'   : 'pc',
+            'title'   : '提示！',
+            'content' :  '请确认是否离开此页...',
+            'width'        : '250px', //宽度
+            'height'       : '140px', //高度
+            'modal'   : true,
+            'contentTextAlign' : 'left',
+            'animateType': 'scale',
+            'bodyScroll' : 'true',
+            'buttons' : {
+                '离开此页' : function(){
+                    location.href = url;
+                },
+                '留在此页' : function(){
+                    M.dialog1.close();
+                }
+            }
+        });
+    };
+     $(document).delegate(".mycourse",'click',function(){
+        var url = "{% url 'course:list'%}";
+        transurl(url);
+     })
+     $(document).delegate(".away",'click',function(){
+        var url = "{% url 'course:list'%}";
+        transurl(url);
+     })
+     $(document).delegate(".myexam",'click',function(){
+        var url = "{% url 'examination:myexam'%}";
+        transurl(url);
+     })
+     $(document).delegate(".mylab",'click',function(){
+        var url = "{% url 'experiment:myexperi'%}";
+        transurl(url);
+     })
+     $(document).delegate(".logout", 'click', function () {
+        var url = "{% url 'logout'%}";
+        transurl(url);
+     })
+     $(document).delegate(".usercenter", 'click', function () {
+        var url = "{% url 'users:usercenter'%}";
+        transurl(url);
+     })
+</script>
+</body>
+</html>

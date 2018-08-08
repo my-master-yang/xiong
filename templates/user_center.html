@@ -1,0 +1,525 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <title>个人中心</title>
+    <meta name="viewport" content="width=100%; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/loading.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/font-awesome-4.7.0/css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/bootstrap-3.3.7-dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/slide.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/base.css' %}">
+    <link href="https://static1.51cto.com/edu/center/css/background_stu.css?v=1.1.6" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/PersonalCenter.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/a-manage.css' %}">
+
+    <script src="{% static 'openstack_platform/js/jquery-1.10.1.min.js' %}"></script>
+    <script src="{% static 'openstack_platform/bootstrap-3.3.7-dist/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'openstack_platform/js/userscript.js' %}"></script>
+    <link href="https://static1.51cto.com/edu/center/css/background_pub.css" rel="stylesheet">
+    <script src="{% static 'openstack_platform/js/loading.js' %}"></script>
+    <script src="{% static 'openstack_platform/js/laydate.js' %}"></script>
+    <script src="{% static 'openstack_platform/js/slide.js' %}"></script>
+        <script>
+        ;!function(){
+            laydate({
+                elem: '#demo'
+            })
+        }();
+        </script>
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/laydate.css' %}">
+    <link rel="stylesheet" href="{% static 'openstack_platform/css/laydate2.css' %}">
+</head>
+<body>
+{% block nav %}
+ <div class="hd-main clearfix" id="header" style="background-color: #313744">
+	<a class="logo" href="{% url 'index' %}">
+		<img class="nav_image" alt="西南交通大学铁路安全培训平台" src="{% static 'openstack_platform/image/log.png' %}">
+		<img class="nav_zi" src="{% static 'openstack_platform/image/zi.png' %}"/>
+	</a>
+    <div class="nav-menu">
+		<span></span>
+		<span></span>
+		<span></span>
+	</div>
+    <div class="nav-list">
+        <div class="navs">
+            <a class="navs-child" href="{% url 'course:list' %}">课程管理</a>
+            <a class="navs-child" href="{% url 'experiment:myexperi' %}">实验管理</a>
+            <a class="navs-child" href="{% url 'users:usercenter' %}">个人中心</a>
+            <a class="navs-child" href="{% url 'examination:myexam' %}">考试中心</a>
+        </div>
+        <div class="info">
+            <ul class="per-info" style="float: left;padding-left: 12px;">
+            <li class="dropdown" style="float: left;padding-left: 5px;">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <img class="btn nav_touxiang" role="button" src="{% static 'openstack_platform/image/hibo1.jpg' %}">
+                </a>
+            </li>
+            <li class="name">{{ user.username }}</li>
+            </ul>
+            <a class="out-o" href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;安全退出</a>
+            <a style="padding-left: 13px;" class="out-t" href="{% url 'logout' %}">安全退出</a>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <div class="copyright">Copyright © 2018 Agile Photonics Technologies Co.,Ltd. All Rights Reserved </div>
+</div>
+{% endblock %}
+<section>
+<div class="center1">
+    <div class="user_top">
+        <ul class="header">
+            <li><img class="head_image" role="button" src="{% static 'openstack_platform/image/person.jpg' %}" ></li>
+            <li class="person_name">{{ personalinfo.nick_name }}</li>
+        </ul>
+        <div class="finish_learn">
+            <ul>
+                <li class="finish fi_course">
+                    <span style="text-indent: 20px;">{{ collected_course_count }}/{{ course_count }}</span>
+                    <span>收藏课程/门</span>
+                </li>
+                <li class="finish fi_exper">
+                    <span style="text-indent: 28px;">{{ collected_lab_count }}/{{ lab_count }}</span>
+                    <span>收藏实验/门</span>
+                </li>
+                <li class="finish fi_exam">
+                    <span style="text-indent: 28px;">{{ user_exam_count }}/{{ exam_count }}</span>
+                    <span>完成考试/门</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="center2">
+    <div class="user_bottom">
+        <div class="le_nav">
+            <ul id="myTab" class="nav nav-tabs">
+                <li class="active"><a href="#person" data-toggle="tab"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;个人资料</a></li>
+                <li><a href="#shoucang" data-toggle="tab"><i class="fa fa-star fa-lg star"></i>&nbsp;&nbsp;&nbsp;我的收藏</a></li>
+                <li><a href="#exam" data-toggle="tab"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;历史考试</a></li>
+            </ul>
+        </div>
+        <div class="container">
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="person">
+                    <div class="person_message">
+                     <div class="top">
+                        <span>个人资料</span>
+                     </div>
+                     <div class="Page Stu">
+                         <div class="myInfo" id="myInfo">
+                             <form method="post" id="Info">
+                                 {% csrf_token %}
+                                 <dl class="tables">
+                                     <dt>姓名</dt>
+                                     <dd>
+                                         <p class="show" id="name_show">{{ personalinfo.nick_name }}</p>
+                                         <input type="text" class="edit fl" id="realname" maxlength="20" min="2" value="{{ personalinfo.nick_name }}">
+                                     </dd>
+                                 </dl>
+                                 <dl class="tables 2">
+                                     <dt>性别</dt>
+                                     <dd style="color: white">
+                                         <p class="show" id="sex_show" name="sex">{{ personalinfo.gender }}</p>
+                                         <label class="edit" style="color: #9a9a9a;"><input class="edit" type="radio" id="sex" name="sex" value="男" style="margin-top: 5px;" checked/>男</label>
+                                         <label class="edit" style="color: #9a9a9a;"><input class="edit" type="radio" id="sex" name="sex" value="女" style="margin-top: 5px;">女</label>
+                                     </dd>
+                                 </dl>
+{#                                 <dl class="tables main">#}
+                                 <dl class="tables">
+                                     <dt>出生日期</dt>
+                                     <dd class="demo">
+                                         <p class="show" id="birth_show" >{{ personalinfo.birthday }}</p>
+                                         <input type="text" class="edit fl" id="birth" onClick="laydate()" placeholder="年-月-日" value="{{ personalinfo.birthday }}">
+                                     </dd>
+                                 </dl>
+                                 <dl class="tables 1">
+                                                <dt>手机号</dt>
+                                                <dd>
+                                                    <p class="show" id="mobile_show">{{ personalinfo.mobile }}</p>
+                                                    <input type="text" class="edit" id="phone" rule="isNum" maxlength="12" min="6" value="{{ personalinfo.mobile }}">
+                                                </dd>
+                                            </dl>
+                                 <dl class="tables">
+                                                <dt>QQ号</dt>
+                                                <dd>
+                                                    <p class="show" id="qq_show">{{ personalinfo.qq_number }}</p>
+                                                    <input type="text" class="edit" id="qqnumber"  rule="isNum" maxlength="12" min="6" value="{{ personalinfo.qq_number }}">
+                                                </dd>
+                                            </dl>
+                                 <dl class="tables">
+                                     <dt>邮箱</dt>
+                                     <dd>
+                                         <p class="show" id="email_show">{{ personalinfo.email }}</p>
+                                         <input type="text" class="edit fl" id="email" rule="isEmail" value="{{ personalinfo.email }}" >
+                                     </dd>
+                                 </dl>
+                                 <dl class="modify">
+                                     <dd>
+                                         <a type="button" id="edit_info" class="show" ><i class="fa fa-pencil" aria-hidden="true"></i>编辑</a>
+                                         <button class="edit_save edit" onclick="save()">保 存</button>
+                                         <a type="button" class="edit_cancel edit type2" id="edit_cancel" >取 消</a>
+                                     </dd>
+                                 </dl>
+                             </form>
+                         </div>
+                     </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="shoucang">
+                    <div class="favorite">
+                        <div id="cen_right_top">
+                            <h3 class="active">我的课程</h3>
+                            <h3>我的实验</h3>
+                            <span class="coll-clear">清空收藏</span>
+                            <div class="div" style="display:block;height: 580px; overflow-y: auto;">
+                                <ul class="list">
+                                    {% for lesson in lessoncollection %}
+                                        <li>
+                                        <section>
+                                            <a href="#"><img src="{% static 'openstack_platform/image/shu1.jpg' %}"></a>
+{#                                            <li class="image" type="button"  onClick="startingcourse({{ lesson.pk }});">#}
+{#                                                <img class="scrollLoading" src="/media/{{ lesson.image }}"/>#}
+{#                                            </li>#}
+                                            <span class="span" style="padding: 10px">{{ lesson.name }}</span>
+                                            <i class="num">
+                                                <i class="fa fa-users" aria-hidden="true"></i>
+                                                <span class="number">2{{ lesson.students }}</span>
+                                            </i>
+                                            <i class="hard2">
+                                                <i class="fa fa-signal" aria-hidden="true"></i>
+                                                <span>难度: </span>
+                                                <span style="color: #da8f00">{{ lesson.level }}</span>
+                                            </i>
+                                            <a class="btn continue" type="button" onClick="loading({{ lesson.coursepk }});">继续学习</a>
+                                        </section>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="div" style="height: 580px;overflow-y: auto;">
+                                <ul class="list">
+                                    {% for lab in labcollection %}
+                                    <li>
+                                    <section>
+                                        <a href="#"><img src="{% static 'openstack_platform/image/shiyan1.jpg' %}"></a>
+{#                                        <div class="image">#}
+{#                                            <img class="scrollLoading"#}
+{#                                                 src="/media/{{ lab.image }}"/>#}
+{#                                        </div>#}
+                                        <span class="span" style="padding: 10px">{{ lab.name }}</span>
+                                        <i class="num">
+                                            <i class="fa fa-users" aria-hidden="true"></i>
+                                            <span class="number">2{{ lesson.students }}</span>
+                                        </i>
+                                        <i class="hard2">
+                                            <i class="fa fa-signal" aria-hidden="true"></i>
+                                            <span>难度:</span>
+                                            <span style="color: #da8f00">{{ lab.level }}</span>
+                                        </i>
+                                        {% ifequal buttonlive "show" %}
+                                            <a class="btn continue" type="button" onClick="createinstance({{ lab.labpk }});">继续实验</a>
+                                        {% else %}
+                                            <a class="btn continue" type="button" style="cursor: no-drop;opacity: 0.5;border-radius: 5px;">继续实验</a>
+                                        {% endifequal %}
+                                    </section>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="exam" style="padding-top: 10px">
+                    <div class="top"><span class="his-exam">历史考试</span><span class="his-clear">清空考试</span></div>
+                    <div class="bottom history" style="overflow-y: auto;height: 580px">
+                        <ul class="list">
+                            {% for userexam in userexams %}
+                            <li>
+                            <section>
+                                <img src="{% static 'openstack_platform/image/shu.jpg' %}"/>
+{#                                <a class="image">#}
+{#                                    <img class="scrollLoading" src="/media/{{ examitem.image }}"/>#}
+{#                                </a>#}
+                                <div style="padding: 5px">
+                                    <span  class="span">{{ userexam.examlesson }}</span>
+                                    <i class="time2">
+                                        <span>时长: </span>
+                                        <span style="color: #da8f00">{{ userexam.exam_times }}min</span>
+                                    </i>
+                                    <i class="hard">
+                                        <span>成绩:</span>
+                                        <span style="padding:10px 0 0 0; color: #da8f00;font-size: 14px;line-height: 1">{{ userexam.score }}</span><span>分</span>
+                                    </i>
+                                </div>
+                            </section>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+<div class="slide-all">
+    <div class="slide-outer">
+        {% for lab_show in instancelive %}
+            <div class="slide-content">
+                <div class="slide-inner">
+                    <span class="shiyan-name">{{ lab_show.labName }}</span>
+                    <ul class="buttons">
+                        <li><input class="continue" type="button" value="继续实验"
+                                   onClick="continueLab('{{ lab_show.labID }}','{{ lab_show.instanceID }}')"/></li>
+                        <li><input class="over" type="button" value="结束实验" onclick="deleteLab({{ lab_show.pk }})"/>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="visible">
+            <i class="fa fa-plus-square" aria-hidden="true"></i>
+            <span class="openTop openLeft">实验进行中</span>
+        </div>
+    </div>
+    <div class="slide-outer-exam">
+        <div class="slide-content-exam">
+            <div class="slide-inner">
+                <span class="shiyan-name">考试科目名称</span>
+                <ul class="buttons">
+                    <li><input class="continue" type="button" value="继续考试"/></li>
+                    <li><input class="over" type="button" value="结束考试"/></li>
+                </ul>
+            </div>
+        </div>
+        <div class="visible-exam slide">
+            <i class="fa fa-plus-square" aria-hidden="true"></i>
+            <span class="openTop openLeft">考试进行中</span>
+        </div>
+    </div>
+</div>
+
+<script>
+$(".visible").click(function () {
+    $(".slide-content").slideToggle(500);
+    if ($(".slide-content").css("display", "block")) {
+        $(".slide-content-exam").css("display", "none");
+    }
+})
+$(".visible-exam").click(function () {
+    $(".slide-content-exam").slideToggle(500);
+    if ($(".slide-content-exam").css("display", "block")) {
+        $(".slide-content").css("display", "none");
+    }
+})
+</script>
+
+<script type="text/javascript">
+//个人信息功能
+$(document).ready(function(){
+    $.ajaxSetup({
+         data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+$('#Info').submit(function(){
+        var name = $("#realname").val();                 //获得form中用户输入的name//同上
+        var birth = $("#birth").val();
+        var mobile = $("#phone").val();
+        var qqnumber = $("#qqnumber").val();
+        var email = $("#email").val();
+        var sex = $('input:radio[name="sex"]:checked').val();
+
+        $.ajax({
+            type:"POST",
+            data: {name:name,sex:sex,birth:birth,mobile:mobile,qqnumber:qqnumber,email:email,clear:'clear_exam'},
+            url: "{% url 'users:usercenter' %}",     //后台处理函数的url 这里用的是static url 需要与urls.py中的name一致
+            cache: false,
+            dataType: "html",
+            success: function(){
+
+            },
+        });
+        return false;
+    });
+
+});
+function save() {
+var truthBeTold = window.confirm("编辑成功！");
+      if (truthBeTold) {
+      window.setTimeout(reload,500);
+
+    } else window.close();
+}
+
+function reload() {
+    location.reload();
+}
+function loading(agu) {
+    $('body').loading({
+        loadingWidth: 220,
+        title: '提示',
+        name: 'test',
+        titleColor: '#fff',
+        discColor: '#EDEEE9',
+        discription: '正在加载，请稍等...',
+        direction: 'column',
+        type: 'origin',
+        originBg: '#96deec',
+        originDivWidth: 40,
+        originDivHeight: 40,
+        originWidth: 6,
+        originHeight: 6,
+        smallLoading: false,
+        loadingBg: 'rgba(33, 30, 23, 0.8)',
+        loadingMaskBg: 'rgba(66,66,66,0.2)'
+    });
+    setTimeout(endloading, 2000, agu);
+}
+function endloading(agus) {
+    var url = "{% url 'course:lesson' 12345 %}";
+    url = url.replace('12345',agus);
+    removeLoading('test');
+    location.href = url;
+}
+        function startloading() {
+            $('body').loading({
+                loadingWidth: 220,
+                title: '提示',
+                name: 'testloading',
+                titleColor: '#fff',
+                discColor: '#EDEEE9',
+                discription: '正在加载，请稍等...',
+                direction: 'column',
+                type: 'origin',
+                originBg: '#96deec',
+                originDivWidth: 40,
+                originDivHeight: 40,
+                originWidth: 6,
+                originHeight: 6,
+                smallLoading: false,
+                loadingBg: 'rgba(33, 30, 23, 0.8)',
+                loadingMaskBg: 'rgba(66,66,66,0.2)'
+            });
+        }
+
+        function createinstance(lab_id) {
+            $.ajaxSetup({
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+            });
+            startloading();
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "{% url 'instance:createinstance' %}",
+                data: {"lab_id": lab_id},
+                async: true,
+                success: function (data) {
+                    if (data.status === 'success') {
+                        {#alert("创建成功")#}
+                        {#startloading();#}
+                        myStartFunction(lab_id);
+                    } else if (data.status === 'fail') {
+                        removeLoading('testloading');
+                        alert("创建失败,请联系管理员");
+                    }
+                }
+            });
+        }
+
+        var myVar;
+        function myStartFunction(lab_id) {
+            myVar = setInterval(function () {
+                checknewinstance(lab_id)
+            }, 3000);
+        }
+
+        function checknewinstance(lab_id) {
+            $.ajaxSetup({
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+            });
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "{% url 'instance:checknewinstance' %}",
+                data: {"lab_id": lab_id},
+                async: true,
+                success: function (data) {
+                    if (data.status === 'success') {
+                        {#alert("轮训成功");#}
+                        clearInterval(myVar);
+                        removeLoading('testloading');
+
+                        var url = "{% url 'experiment:experilab' 12345 12346%}";
+                        url = url.replace('12345', lab_id);
+                        url = url.replace('12346', data.instance_id);
+                        location.href = url;
+                        {#window.location.reload();#}
+                    } else if (data.status === 'BUILD') {
+                        {#alert("轮训中")#}
+                    }
+                }
+            });
+        }
+        function deleteLab(lab_pk) {
+            {#alert(lab_pk);#}
+            $.ajaxSetup({
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+            });
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "{% url 'instance:deletelab' %}",
+                data: {"lab_pk": lab_pk},
+                async: true,
+                success: function (data) {
+                    if (data.status === 'success') {
+                        window.location.reload();
+                        alert("结束实验成功");
+                    } else if (data.status === 'BUILD') {
+                        {#alert("轮训中")#}
+                    }
+                }
+            });
+        }
+
+        function continueLab(lab_id, instance_id) {
+            {#alert(lab_pk);#}
+            {#alert(instance_id);#}
+            var url = "{% url 'experiment:experilab' 12345 12346%}";
+            url = url.replace('12345', lab_id);
+            url = url.replace('12346', instance_id);
+            location.href = url;
+        }
+
+$("#edit_info,#edit_archives").click(function(){
+
+$(this).parents('.myInfo').addClass('edit')
+})
+$("a.edit_cancel").click(function(){
+
+$(this).parents('.myInfo').removeClass('edit')
+})
+
+$("button.edit_save").click(function() {
+
+$(this).parents('.myInfo').removeClass('edit')
+
+});
+
+</script>
+<script>
+	$(document).click(function(){
+		$('.nav-list').removeClass('open')
+	})
+	$('.nav-menu,.nav-list').click(function(e){e.stopPropagation()})
+	$('.hd-main').find('.nav-menu').click(function(e){
+		$('.nav-list').toggleClass('open')
+	})
+</script>
+</body>
+</html>
