@@ -7,7 +7,7 @@ from django.views.generic.base import View
 
 from openstack_netsec.models import InstanceList
 from users.models import UserExamination
-from .models import ExamCategory, ExamLesson, ExamPaper, Question, AnswerCard
+from .models import ExamCategory, ExamLesson, ExamPaper, Question,AnswerCard
 from datetime import datetime, timedelta
 import time
 
@@ -82,41 +82,22 @@ class ExamPaperView(View):
         question_list = []
         question_id_list = []
 
-#        AnswerCard.objects.get_or_create(user_name=request.user.username,number_id=examNum)
-#       frist_time = AnswerCard.objects.filter(user_name=request.user.username, number_id=examNum)[0].start_time
-#       #frist_time = AnswerCard.objects.filter(user_name=request.user.username).delete()
-#        frist_time=time.time()
-#        if (frist_time+30<time.time()):#不在考试区间，创建
-#            AnswerCard.objects.create(user_name=request.user.username,number_id=examNum,frist_time=time.time())
-#        if(frist_time+30>time.time()):#在考试区间
-#           print("onwork",time.time())
-#       # if AnswerCard.objects.get(user_name==request.user.username, number_id=examNum).start_time:
-#            frist_time = AnswerCard.objects.get(user_name=request.user.username, number_id=examNum).start_time
-#            now=datetime.now()
-#        print ("f-t=:")
+        AnswerCard.objects.get_or_create(user_name=request.user.username,number_id=examNum)
+        frist_time = AnswerCard.objects.filter(user_name=request.user.username, number_id=examNum)[0].start_time
+       # AnswerCard.objects.filter(user_name=request.user.username).delete()
+        now1 = datetime.now().replace(tzinfo=None)
+        frist_time = frist_time.replace(tzinfo=None)
+        print("ft=", type(timedelta(hours=2)))
+        if (frist_time+timedelta(hours=20)<now1+timedelta(seconds=1)): #不在考试区间，创建
 
-        """
-        examlesson_id=UserExamination.objects.filter(examlesson_id=exampaper_id)
-        print(exampaper_id)
-        print(examlesson)
-        print("eid=", examlesson_list_id)
-        print(examNum)
-        print(examlesson_id)
-        print(questions)
-        frist_time = UserExamination.objects.get(username=request.user.username, examlesson_id=exampaper_id)
-        now_time = datetime.now()
-        print(frist_time)
-        print(type(now_time))
-        # if( (datetime(now_time.second) - datetime(frist_time.second)) >= 3600):
-        #     UserExamination.objects.filter(username=request.user.username, examlesson_id=examlesson_list_id).update(frist_time=frist_time)
-        i = timedelta(now_time) - timedelta(frist_time)
-        print("i=", i)
+            AnswerCard.objects.filter(user_name=request.user.username,number_id=examNum).update(start_time=datetime.now)
+        if(frist_time+timedelta(hours=20)>now1+timedelta(seconds=1)):  #在考试区间
+            print("onwork",frist_time+timedelta(hours=20))
+       # if AnswerCard.objects.get(user_name==request.user.username, number_id=examNum).start_time:
+            frist_time = AnswerCard.objects.get(user_name=request.user.username, number_id=examNum).start_time
+            print("now",now1)
+        print ("f-t=:")
 
-        # frist_time = ExamPaper.objects.filter()
-        print("list=", examlesson_list_id)
-        print("now1=", frist_time)
-        print("list_id", examNum)
-"""
         for question in questions:
             # question = Question.objects.get(pk=exampaper.question_id)
             question_list.append(question)

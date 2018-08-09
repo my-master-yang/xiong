@@ -39,9 +39,8 @@ class ExamLesson(models.Model):
 
 class AnswerCard(models.Model):
     user_name = models.CharField(max_length=20, verbose_name="u姓名", null=True, blank=True)
-   # number_id = models.IntegerField(verbose_name=u"试卷编号", null=True, blank=True)
-   # start_time = models.BinaryField(verbose_name=u"开始时间", default=0.0,null=True,blank=True)
-
+    number_id = models.IntegerField(verbose_name=u"试卷编号", null=True, blank=True)
+    start_time = models.DateTimeField(verbose_name=u"开始时间", default=datetime.now(), null=True, blank=True)
 
 
 
