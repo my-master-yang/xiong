@@ -84,19 +84,22 @@ class ExamPaperView(View):
 
         AnswerCard.objects.get_or_create(user_name=request.user.username,number_id=examNum)
         frist_time = AnswerCard.objects.filter(user_name=request.user.username, number_id=examNum)[0].start_time
-       # AnswerCard.objects.filter(user_name=request.user.username).delete()
-        now1 = datetime.now().replace(tzinfo=None)
-        frist_time = frist_time.replace(tzinfo=None)
-        print("ft=", type(timedelta(hours=2)))
-        if (frist_time+timedelta(hours=20)<now1+timedelta(seconds=1)): #不在考试区间，创建
+        #AnswerCard.objects.filter(user_name=request.user.username).delete()
+        print("a", frist_time.strftime('%Y-%m-%d %H:%M:%S %f'))#字符串格式化（可进行int等格式话）
+        print((int(frist_time.strftime('%Y')))*10)
 
-            AnswerCard.objects.filter(user_name=request.user.username,number_id=examNum).update(start_time=datetime.now)
-        if(frist_time+timedelta(hours=20)>now1+timedelta(seconds=1)):  #在考试区间
-            print("onwork",frist_time+timedelta(hours=20))
+        now1 = datetime.now().replace(tzinfo=None) #将datetime类转换为timedelta类
+        frist_time = frist_time.replace(tzinfo=None)
+      #  print("now1=", now1)
+        cz=now1-frist_time
+        #print("cz=",cz.seconds)
+        if (cz>timedelta(seconds=30)): #不在考试区间，创建
+            AnswerCard.objects.filter(user_name=request.user.username,number_id=examNum).update(start_time=datetime.now()+timedelta(hours=8))#加了8小时与中国时区相符（主要是数据库的时间没配好设置了也没生效）
+        if(cz<timedelta(seconds=30)):  #在考试区间
+            print("frist",frist_time)
        # if AnswerCard.objects.get(user_name==request.user.username, number_id=examNum).start_time:
             frist_time = AnswerCard.objects.get(user_name=request.user.username, number_id=examNum).start_time
             print("now",now1)
-        print ("f-t=:")
 
         for question in questions:
             # question = Question.objects.get(pk=exampaper.question_id)
