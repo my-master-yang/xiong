@@ -1,0 +1,29 @@
+#配置多个ssh
+1 先生成 两个ssh
+ssh-keygen -t rsa -C "email.com or username..." -f ~/.ssh/filename (不同文件名)
+
+2分别添加id-rsa.pub公钥到github和其他地方
+cat id_rsa.pub
+
+3检查配置成功否
+ssh -T git@github.com
+ssh -T git@git.coding.net
+
+4查看系统配置
+ssh-add -l
+(添加：ssh-add ~/.ssh/id_rsa)
+
+4关键：配置config文件
+
+# git.coding.net    #其他配置
+Host git.coding.net     #Host 远程主机真实域名
+    HostName git.coding.net   #别名 一般相同
+    PreferredAuthentications publickey   #传输方式publickey,password publickey,k						  #eyboard-interactive
+    IdentityFile ~/.ssh/id_rsa		# 私钥位置
+# github
+Host github.com
+    HostName github.com
+    PreferredAuthentications publickey
+    IdentityFile ~/.ssh/github_rsa
+
+
